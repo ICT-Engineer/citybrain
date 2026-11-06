@@ -1,0 +1,46 @@
+{
+  "samples": 106200,
+  "train": 84960,
+  "test": 21240,
+  "accuracy": 0.9809,
+  "forecast_mae_ug_m3": 4.12,
+  "class_counts": {
+    "no_action": 51903,
+    "health_advisory": 47786,
+    "curtail_industry": 6511
+  },
+  "report": {
+    "curtail_industry": {
+      "precision": 0.9865612648221344,
+      "recall": 0.9585253456221198,
+      "f1-score": 0.9723412543825477,
+      "support": 1302.0
+    },
+    "health_advisory": {
+      "precision": 0.9884861407249467,
+      "recall": 0.9701789264413518,
+      "f1-score": 0.9792469768178698,
+      "support": 9557.0
+    },
+    "no_action": {
+      "precision": 0.9735724398301085,
+      "recall": 0.9936422309989403,
+      "f1-score": 0.9835049580472921,
+      "support": 10381.0
+    },
+    "accuracy": 0.9809322033898306,
+    "macro avg": {
+      "precision": 0.9828732817923965,
+      "recall": 0.9741155010208039,
+      "f1-score": 0.9783643964159032,
+      "support": 21240.0
+    },
+    "weighted avg": {
+      "precision": 0.9810791107148348,
+      "recall": 0.9809322033898306,
+      "f1-score": 0.9809047382365065,
+      "support": 21240.0
+    }
+  },
+  "source": "Twin core PM2.5 equation: next = 10 + (prev-10)/1.01 + source + plant"
+}

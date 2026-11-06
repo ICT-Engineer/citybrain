@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>City Brain report: triplet 07</title>
+<style>
+@page{size:A4;margin:18mm 17mm 18mm 17mm}
+:root{--ink:#1d1b3a;--dim:#55537a;--line:#e3e0f2;--violet:#5b3fd6;--mint:#0f9d7a;--coral:#d4405e;--amber:#b7791f;--soft:#f6f4fd}
+*{box-sizing:border-box}
+body{margin:0;font:10pt/1.5 Inter,'DejaVu Sans',sans-serif;color:var(--ink)}
+h1{font:800 22pt/1.15 'Inter Display',Inter,sans-serif;margin:0 0 4mm;letter-spacing:-.01em}
+h2{font:800 15pt/1.2 'Inter Display',Inter,sans-serif;margin:0 0 3mm;color:var(--violet)}
+h3{font:700 11.5pt/1.3 Inter,sans-serif;margin:5mm 0 1.5mm;padding-top:1.5mm;border-top:1.5px solid var(--line)}
+h4{font:700 10pt Inter,sans-serif;margin:3mm 0 1mm;color:var(--dim)}
+h2,h3,h4{break-after:avoid;page-break-after:avoid}
+.t4 td,.t4 th{padding:.9mm 1.6mm}
+p{margin:0 0 2mm}
+ul{margin:0 0 2mm;padding-left:5mm}li{margin:0 0 .8mm}
+code,.mono{font:8.6pt 'DejaVu Sans Mono',monospace;background:var(--soft);padding:0 1mm;border-radius:2px}
+table{width:100%;border-collapse:collapse;margin:1.5mm 0 3mm;font-size:8.8pt;page-break-inside:avoid}
+th{background:var(--soft);text-align:left;font-weight:700;color:var(--dim)}
+th,td{padding:1.3mm 1.8mm;border-bottom:1px solid var(--line);vertical-align:top}
+.part{page-break-before:always}
+.kicker{font:700 8pt Inter;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;margin-bottom:1mm}
+.meta{color:var(--dim);font-size:9pt;margin-bottom:5mm}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.card{background:var(--soft);border-radius:3mm;padding:3mm 3.5mm}
+.card b{display:block;margin-bottom:.8mm}
+.pill{display:inline-block;font:700 7.5pt Inter;padding:.3mm 2mm;border-radius:9mm;background:#e9fbf4;color:var(--mint)}
+.pill.r{background:#fdecef;color:var(--coral)}.pill.a{background:#fdf3e2;color:var(--amber)}
+figure{margin:2mm 0 3mm}figure img{width:100%;border:1px solid var(--line);border-radius:2mm}
+figcaption{font-size:8pt;color:var(--dim);margin-top:1mm}
+.flow{display:flex;gap:1.5mm;align-items:stretch;margin:2mm 0 3mm}
+.flow div{flex:1;background:var(--soft);border-radius:2mm;padding:2mm;font-size:8.3pt;border-top:2.5px solid var(--violet)}
+.flow div b{display:block;font-size:8.5pt}
+.big{font:800 17pt 'Inter Display',Inter;color:var(--violet);display:block;line-height:1.1}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm;margin:2mm 0 4mm}
+.stats div{background:var(--soft);border-radius:2.5mm;padding:2.5mm 3mm;font-size:8pt;color:var(--dim)}
+.note{font-size:8.5pt;color:var(--dim)}
+</style></head>
+<body>
+
+<div class="kicker">TSYP14 · City Brain Convergence · Phase 1 · Triplet 07</div>
+<h1>The City Brain layer</h1>
+<div class="meta">Report contribution of the City Brain team. Part 2, plus the Brain's sections of Part 0 and Part 4 · repo <code>triplet-07/brain</code> · Interface <code>brain-interface-1.0</code> · status: runs alone, <b>not merged</b></div>
+
+<div class="stats">
+  <div><span class="big">13/13</span>Test Book scenarios pass, each with its own log</div>
+  <div><span class="big">74</span>automated tests (contracts, scenarios, security)</div>
+  <div><span class="big">16/16</span>sensors at the same map position as the Twin</div>
+  <div><span class="big">≈1.4 s</span>median from reading to actuator action</div>
+</div>
+
+<h2>Part 0 · Triplet overview: where the Brain sits</h2>
+<p>The triplet is a small city in three layers. The <b>Twin</b> simulates it: 16 sensors in five zones (Port, Industrial, Downtown, Residential, Hospital) and the devices that act on it. The <b>Guardian</b> watches every reading and says whether it can be trusted. The <b>City Brain</b> is the decision maker: it turns trusted readings into commands for the Twin's actuators.</p>
+<div class="flow">
+  <div><b>1 · Reading</b>The Twin publishes <code>PRT-WLV-01 = 82.75 cm</code></div>
+  <div><b>2 · Verdict</b>The Guardian answers <code>TRUSTED</code>, score 1.0</div>
+  <div><b>3 · Decision</b>The Brain decides "flood: start the port pump" (model 0.81, the rule agrees)</div>
+  <div><b>4 · Action</b>The Twin applies <code>PRT-PMP-01 start</code>; the pump blinks on the map</div>
+</div>
+<p>All three teams follow one rule: <b>no reading drives an actuator unless the Guardian trusts it.</b> When the Guardian is silent, the Brain waits (HELD). It never guesses. When the link to the Twin breaks after a decision, the decision is sealed on disk and sent later, so it is never lost. Each step is stamped in UTC on a shared timeline (R3), which lets the jury follow one incident across the three layers.</p>
+
+<!-- ================================================================== PART 2 -->
+<section class="part">
+<div class="kicker">Part 2 · 5 pages</div>
+<h2>Part 2 · The City Brain</h2>
+
+<h3>1. Role and goals</h3>
+<p>The Brain answers one question many times per second: <i>"Given what the city reports, and what the Guardian trusts, which device should do what, now?"</i> Its goals, in priority order:</p>
+<ul>
+  <li><b>Safety first.</b> Act only on TRUSTED readings. If unsure, hold. Never touch the hospital feeder.</li>
+  <li><b>Act once and act right.</b> One response per incident, even when two redundant sensors report it, and the right device: the one linked to that sensor in the Twin's catalog, or its backup.</li>
+  <li><b>Undo when the incident is over.</b> Stop the pump, return signals to normal and close the feeder when the readings are normal again.</li>
+  <li><b>Never lose a decision.</b> If the network fails after deciding, keep the decision safe and deliver it later.</li>
+  <li><b>Explain everything.</b> Each decision shows who chose it (rule or model), the confidence, the verdict and the reasons, on screen, in logs and on the timeline.</li>
+</ul>
+
+<h3>2. Architecture</h3>
+<figure><img src="../diagrams/brain-architecture.svg" alt="City Brain architecture"><figcaption>Figure 1. One process (port 8300). Only <code>clients/</code> talks to partners, and every address and secret comes from <code>.env</code>. For R1 the Twin and Guardian simulators are mounted inside the same process.</figcaption></figure>
+
+<h4>Incident detection</h4>
+<p>Every second the Brain polls the Twin's <code>GET /api/v1/sensors</code> and validates each row first (schema, types, finite values, sequence, timestamp). A malformed row is refused with a clear code and never reaches the decision logic. Valid readings are compared with <b>that sensor's own <code>normal_limits</code> from the Twin catalog</b> (for example PRT-WLV-01: 20–80 cm; PM2.5: 0–35 µg/m³). A breach becomes an incident (flood, overheat, congestion, air pollution, pressure or flow fault) with a correlation id of the form <code>run:sensor:seq</code>. Redundant pairs, such as the two port water sensors, are <b>corroborated</b>: one incident and one response, not two. The incident is claimed before any network call, so two readings cannot both start a pump.</p>
+
+<h4>Decision method: rules as a safety floor, ML on top</h4>
+<table>
+<tr><th style="width:24%">Layer</th><th>What it does</th><th style="width:26%">Numbers</th></tr>
+<tr><td><b>Catalog rules</b></td><td>Map each incident type to a response family (flood → pumps, overheat → coolant valve, congestion → priority corridor). The rules are always computed, and they win whenever the model disagrees in the unsafe direction (for example the model says "no action" while a limit is broken).</td><td>One rule per incident type, taken from the Twin catalog</td></tr>
+<tr><td><b>City model</b> (RandomForest)</td><td>16 features: sensor family, normalised value, trend, zone, hour, recent incidents. It predicts the action family and a confidence. It is used only when the confidence is at least 0.6 and the model agrees with the rule family; otherwise it is logged as a note.</td><td>Values mapped onto the model scale with each sensor's catalog limits</td></tr>
+<tr><td><b>Air model</b> (new)</td><td>Classifier <i>no_action / health_advisory / curtail_industry</i> plus a GradientBoosting 10-minute PM2.5 forecast. It was trained on the Twin's own PM2.5 equation (<code>next = 10 + (prev−10)/1.01 + source + plant</code>).</td><td>106,200 samples · <b>98.1 %</b> accuracy · forecast MAE <b>4.1 µg/m³</b></td></tr>
+<tr><td><b>Trust gate</b></td><td>The Brain asks <code>GET /verdicts/{observation_id}</code>. It acts only on TRUSTED with a score of at least 0.7. UNTRUSTED → DISCARDED and the backup sensor is used. No answer → HELD, with nothing queued.</td><td>Verdicts are looked up in parallel and never block the poll loop</td></tr>
+</table>
+
+<h4>How an actuator is picked</h4>
+<ul>
+  <li><b>Linked device:</b> the Twin catalog links each sensor to the devices that act on it (PRT-WLV-01 → PRT-PMP-01). The Brain uses those links and does not invent devices.</li>
+  <li><b>Health check:</b> devices that the Guardian has quarantined, or that the Twin refused earlier (<code>GUARDIAN_RESTRICTED</code>), are skipped, and the <b>backup</b> is used instead (PRT-PMP-01 → PRT-PMP-02).</li>
+  <li><b>Least harm:</b> for industrial smog the air model chooses to open feeder <code>F-IND</code>, which cuts PLANT-01. The hospital feeder <code>F-ESS</code> is never touched. Downtown haze only gets an advisory, because there is no plant there to cut.</li>
+  <li><b>Responders:</b> the Brain finds the shortest route on the Twin's road graph (at most 5 roads), avoiding blocked roads. For example, an accident in the Industrial zone sends AMB-01 and POL-01 along R-LOW → R-IND.</li>
+  <li><b>Recovery:</b> when the trusted readings are normal again, the opposite command is sent (stop, set_mode normal, close).</li>
+</ul>
+<p>Every command carries a <b>deterministic <code>request_id</code></b>, which is a hash of the incident, device, command and parameters. A re-send therefore can never double-apply, and the Twin answers <code>IDEMPOTENCY_CONFLICT</code> instead.</p>
+
+<h4>Never losing a decision: the offline vault</h4>
+<p>If the Twin cannot be reached after a decision, the commands are written to <code>data/offline/pending_decisions.jsonl</code>. Each record is flushed and fsync-ed, chained to the previous record's hash and sealed with HMAC. When the link returns, the poller re-sends them with the <i>same</i> request ids and marks them SENT. Decisions older than 5 minutes, or whose incident has cleared, become EXPIRED instead of acting on a stale situation. A restart rebuilds the queue from disk, and editing the file breaks the chain, so tampering is detected (scenario NET-01).</p>
+
+<h3>3. Tech stack and why</h3>
+<table>
+<tr><th style="width:26%">Choice</th><th>Why</th></tr>
+<tr><td>Python 3.12, FastAPI, Uvicorn</td><td>Async I/O suits one loop that polls the Twin while many verdict lookups run. It also gives OpenAPI docs (<code>/docs</code>) for partners at no extra cost.</td></tr>
+<tr><td>httpx (REST), MCP client (SSE)</td><td>The Twin offers both REST and MCP; the transport is a setting (<code>TWIN_TRANSPORT</code>). Both are standard protocols, so there is no custom socket code.</td></tr>
+<tr><td>Pydantic and pydantic-settings</td><td>Typed messages and a single <code>config.py</code> read from <code>.env</code>. No address or token is hard-coded in the logic.</td></tr>
+<tr><td>scikit-learn (RandomForest, GradientBoosting), joblib</td><td>Small, explainable models with confidence scores that load in milliseconds on a laptop, with no GPU. Training scripts are in <code>scripts/</code>.</td></tr>
+<tr><td>JSONL with HMAC-SHA256 hash chain</td><td>The offline vault stays readable by a person, survives a crash (fsync) and shows any edit. It needs no database server.</td></tr>
+<tr><td>Vanilla HTML/JS on the Twin's own map SVG</td><td>The Cortex and timeline screens need no build step. Sharing the Twin's map artwork and anchors keeps every sensor at the same coordinates.</td></tr>
+<tr><td>pytest, ruff, GitHub Actions, Docker</td><td>Each push runs lint, 74 tests and all 13 scenarios, and uploads their logs. <code>docker compose up brain</code> runs the layer alone.</td></tr>
+</table>
+<p class="note">Postgres and Redis from the original repository are still supported (audit log, Redis stream ingestion), but they are optional. The Brain runs without them.</p>
+
+<h3>4. Interfaces in/out</h3>
+<p>The full Interface Card is <code>brain/INTERFACE.md</code> (one page). In summary:</p>
+<table>
+<tr><th style="width:14%">Direction</th><th style="width:20%">Partner</th><th>Endpoint and message</th></tr>
+<tr><td>In</td><td>Twin readings</td><td><code>GET /api/v1/sensors</code> (MCP <code>get_sensor_readings</code>): <code>{sensor_id, type, reported_value, unit, zone_id, seq, timestamp}</code> inside the <code>{ok, run_id, data, error}</code> envelope</td></tr>
+<tr><td>In</td><td>Twin state</td><td><code>GET /api/v1/state</code>, <code>/events?seq=</code>: blocked roads, device status</td></tr>
+<tr><td>In</td><td>Guardian</td><td><code>GET /verdicts/{run_id[-12:]-sensor_id-seq}</code> → <code>{verdict, trust_score, reason_codes, recommended_action}</code>; <code>GET /devices/{id}/trust</code></td></tr>
+<tr><td>Out</td><td>Twin actuators</td><td><code>POST /api/v1/commands</code> <code>{device_id, command, params, request_id, context{correlation_id, observation_id, guardian_verdict_id, trust_score}}</code></td></tr>
+<tr><td>Out</td><td>Guardian timeline</td><td><code>POST /timeline/events</code>, layer <code>brain</code>, so the decisions appear on the shared screen</td></tr>
+<tr><td>Out</td><td>Everyone</td><td><code>GET /api/timeline?since=</code> (R3), <code>/api/overview</code>, <code>/api/vault</code>, <code>/health</code></td></tr>
+</table>
+<p>Pointing the Brain at a partner is configuration only: set <code>SIMULATOR=false</code>, then <code>TWIN_URL</code>, <code>TWIN_TRANSPORT</code>, <code>TWIN_TOKEN_BRAIN</code>, <code>GUARDIAN_URL</code> and <code>GUARDIAN_TOKEN_BRAIN</code>. The same binary was checked once against a real Twin MCP server: commands were APPLIED, an idempotent replay was handled, and a wrong token was refused.</p>
+
+<h3>5. Security measures</h3>
+<div class="grid">
+  <div class="card"><b>Authenticated calls</b>The Bearer role token for the Twin (brain role) and a read-only token for the Guardian come from the environment and never from code. The Twin's documented dev token is only the local default.</div>
+  <div class="card"><b>Signed commands</b>HMAC-SHA256 over method, path, timestamp, nonce and body hash, sent as <code>X-CityBrain-*</code> headers. The receiver rejects requests with BODY_TAMPERED, NONCE_REPLAYED, SIGNATURE_EXPIRED (more than 30 s old), SIGNATURE_INVALID or SIGNATURE_MISSING.</div>
+  <div class="card"><b>Command shield</b>Before anything leaves, each command is checked against the catalog allowlist: device, command name, parameter types and ranges, and the route on the road graph. Commands are rate-limited to 6 per device per minute (a re-send of the same request does not count), and HTTPS is required for any host that is not localhost.</div>
+  <div class="card"><b>Input validation</b>Every partner message is validated before use, and refusals carry clear codes (BAD_VALUE, UNKNOWN_TYPE, BAD_SEQ, BAD_SENSOR_ID, BAD_TIMESTAMP). Replayed sequence numbers are dropped, and the replay guard resets when the Twin starts a new run.</div>
+  <div class="card"><b>Trust before action</b>Only TRUSTED with a score of at least 0.7 can drive an actuator. Quarantined devices are avoided. If the Guardian is down, the Brain holds and does not fall back to acting blindly.</div>
+  <div class="card"><b>Tamper-evident storage</b>The offline vault and the decision journal are hash-chained and HMAC-sealed. The signing key is generated with mode 0600, and it is never logged or committed.</div>
+</div>
+<p>Scenario <b>SEC-01</b> tests all of this live: an out-of-range parameter, an unknown device, a tampered body, a valid command, a replay of that command and an unsigned command. Each one gets the expected code.</p>
+
+<h3>6. Known limitations</h3>
+<ul>
+  <li><b>Not merged yet.</b> All results so far come from the built-in simulators, which copy the partners' interfaces with simplified physics and checks. A separate compatibility run against the real Twin and Guardian code passed, but the full three-layer run will happen after the team decides to merge.</li>
+  <li><b>The real Twin does not check our signatures yet.</b> The Brain sends them and our simulator verifies them; the Twin team still has to decide whether to verify them.</li>
+  <li><b>Air monitors exist only in the simulator.</b> The Twin's 16-sensor inventory has no PM2.5 sensor, although its core computes PM2.5. On merge day the air model needs those values exposed.</li>
+  <li><b>No fire-brigade unit in the Twin catalog.</b> A fire dispatches an ambulance and the police. Residential traffic (RES-TLT-01 is unsupported) gets advisories only.</li>
+  <li><b>The models are trained on simulated data</b> (the Twin's equations and the original dataset). Real data would need retraining. Rules stay the safety floor whatever the model says.</li>
+  <li><b>Emergency calls are operator-confirmed</b> and do not go through a Guardian verdict; they are marked <code>OPERATOR_CONFIRMED_CALL</code>.</li>
+  <li><b>Single instance.</b> The timeline and rate limits live in memory, so there is no horizontal scaling. That is enough for Phase 1.</li>
+</ul>
+</section>
+
+<!-- ================================================================== PART 4 -->
+<section class="part">
+<div class="kicker">Part 4 · Test Book (City Brain scenarios)</div>
+<h2>Part 4 · Test Book: the Brain's scenarios</h2>
+<p>Every scenario has one trigger (<code>python scenarios/run.py --scenario &lt;id&gt;</code>, or <code>--all</code>), and every run writes <code>logs/&lt;id&gt;-&lt;UTC&gt;.log</code> with the timestamped timeline, the decisions, the vault state and a PASS/FAIL line for each expected output. The full field-by-field cards (ID, Name, Layers involved, Description, Trigger, Expected: Twin, Expected: Guardian, Expected: Brain, How to verify) are in <code>TESTBOOK.md</code>. T5 and SCN-02 … SCN-06 reuse the Twin team's names and expectations.</p>
+<table class="t4">
+<tr><th style="width:11%">ID</th><th style="width:21%">Name</th><th>Expected: Guardian</th><th>Expected: Brain</th><th style="width:8%">Result</th></tr>
+<tr><td>CALM-01</td><td>Calm day</td><td>all TRUSTED</td><td>no incident, no command</td><td><span class="pill">PASS</span></td></tr>
+<tr><td>T5</td><td>Fake flood at the port</td><td>UNTRUSTED (BACKUP_DISAGREEMENT), quarantine</td><td>refuse, no pump; use backup PRT-WLV-02</td><td><span class="pill">PASS</span></td></tr>
+<tr><td>SCN-02</td><td>Real flash flood</td><td>TRUSTED</td><td>start PRT-PMP-01 once, stop when normal</td><td><span class="pill">PASS</span></td></tr>
+<tr><td>SCN-03</td><td>Dead + frozen sensors</td><td>bad streams UNTRUSTED</td><td>ignore both, use IND-TMP-02, open IND-VLV-01</td><td><span class="pill">PASS</span></td></tr>
+<tr><td>SCN-04</td><td>Quarantined pump</td><td>PRT-PMP-01 quarantined</td><td>record GUARDIAN_RESTRICTED, start PRT-PMP-02</td><td><span class="pill">PASS</span></td></tr>
+<tr><td>SCN-05</td><td>Accident + spoofed air alarm</td><td>traffic TRUSTED, spoof OUT_OF_RANGE</td><td>priority corridor DTN-TLT-01, refuse the spoof</td><td><span class="pill">PASS</span></td></tr>
+<tr><td>SCN-06</td><td>Guardian outage</td><td>no answer for 30 s</td><td>HELD, nothing queued; act when back</td><td><span class="pill">PASS</span></td></tr>
+<tr><td>AIR-01</td><td>Industrial smog</td><td>TRUSTED</td><td>model: curtail_industry, open F-IND, never F-ESS</td><td><span class="pill">PASS</span></td></tr>
+<tr><td>AIR-02</td><td>Downtown haze</td><td>TRUSTED</td><td>advisory only, no curtailment</td><td><span class="pill">PASS</span></td></tr>
+<tr><td>NET-01</td><td>Link lost after deciding</td><td>TRUSTED</td><td>SAVED_OFFLINE → re-sent same id → SENT, chain intact</td><td><span class="pill">PASS</span></td></tr>
+<tr><td>SEC-01</td><td>Command shield attacks</td><td>n/a</td><td>block bad params/devices; 401 tamper, replay, unsigned</td><td><span class="pill">PASS</span></td></tr>
+<tr><td>INP-01</td><td>Malformed partner input</td><td>skips them</td><td>refuse 5 rows with clear codes, keep running</td><td><span class="pill">PASS</span></td></tr>
+<tr><td>EMG-01</td><td>Emergency call</td><td>n/a (operator)</td><td>AMB-01 + POL-01 via R-LOW → R-IND, then release</td><td><span class="pill">PASS</span></td></tr>
+</table>
+<h4>What a log looks like (SCN-02, abridged)</h4>
+<table class="mono" style="font-size:7.6pt">
+<tr><th>UTC</th><th>Stage · layer</th><th>Event</th></tr>
+<tr><td>21:08:11.710</td><td>reading · twin</td><td>PRT-WLV-01 = 82.75 cm (normal [20, 80])</td></tr>
+<tr><td>21:08:13.008</td><td>verdict · guardian</td><td>TRUSTED score 1.00</td></tr>
+<tr><td>21:08:13.042</td><td>decision · brain</td><td>act on flood at PRT-WLV-01: PRT-PMP-01 start (model 0.81)</td></tr>
+<tr><td>21:08:13.137</td><td>action · twin</td><td>PRT-PMP-01 start {speed_pct: 100} APPLIED</td></tr>
+<tr><td>21:08:24.494</td><td>action · twin</td><td>recovery: PRT-PMP-01 stop APPLIED</td></tr>
+</table>
+<p class="note">Measured across all logs: the median time from decision to applied action is about 0.1 s, and from reading to action about 1.4 s, most of which is waiting for the Guardian's verdict. The simulators run at 4 ticks per second for the logs; <code>--speed 1.0</code> runs in real time.</p>
+</section>
+</body></html>

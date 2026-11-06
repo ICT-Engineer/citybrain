@@ -1,0 +1,15 @@
+# scenario: air-02 - Downtown haze: advisory only
+# trigger: python scenarios/run.py --scenario air-02
+# layer: City Brain (standalone, built-in Twin and Guardian simulators: R1)
+# started: 2026-11-06T21:26:23.311167+00:00  sim speed: 0.25s per tick
+# ---- R3 timeline (reading -> verdict -> decision -> action), one JSON event per line ----
+{"id": 1, "timestamp": "2026-11-06T21:26:57.252Z", "stage": "reading", "layer": "twin", "correlation_id": "mock-twin-001:AIR-DTN-01:288", "summary": "AIR-DTN-01 = 35.4 ug/m3 (normal [0.0, 35.0])", "sensor_id": "AIR-DTN-01", "observation_id": "ock-twin-001-AIR-DTN-01-288", "value": 35.4, "incident": "air_pollution"}
+{"id": 2, "timestamp": "2026-11-06T21:26:58.196Z", "stage": "verdict", "layer": "guardian", "correlation_id": "mock-twin-001:AIR-DTN-01:288", "summary": "TRUSTED score 1.00", "sensor_id": "AIR-DTN-01", "observation_id": "ock-twin-001-AIR-DTN-01-288", "verdict": "TRUSTED"}
+{"id": 3, "timestamp": "2026-11-06T21:26:58.220Z", "stage": "decision", "layer": "brain", "correlation_id": "mock-twin-001:AIR-DTN-01:288", "summary": "act on air_pollution at AIR-DTN-01: advisory, no actuator (model 1.00)", "sensor_id": "AIR-DTN-01", "incident": "air_pollution", "chosen_by": "model", "planned": []}
+# ---- decisions ----
+{"ts": "2026-11-06T21:26:58.221000Z", "sensor_id": "AIR-DTN-01", "incident": "air_pollution", "path": "normal", "outcome": "ADVISORY", "verdict": "TRUSTED", "trust_score": 1.0, "reason_codes": [], "chosen_by": "model", "confidence": 0.999, "notes": ["air model: health_advisory (1.00), PM2.5 now 35, forecast in 10 min 51 ug/m3", "public health advisory for Downtown: no actuator can lower this source"]}
+# ---- offline vault: {} integrity=True ----
+# ---- expected outputs (TESTBOOK.md) ----
+# [PASS] downtown haze gets a health advisory
+# [PASS] no plant curtailment for a zone without the plant
+# RESULT PASS

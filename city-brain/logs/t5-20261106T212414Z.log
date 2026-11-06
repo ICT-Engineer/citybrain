@@ -1,0 +1,23 @@
+# scenario: t5 - Fake flood at the port
+# trigger: python scenarios/run.py --scenario t5
+# layer: City Brain (standalone, built-in Twin and Guardian simulators: R1)
+# started: 2026-11-06T21:24:14.545069+00:00  sim speed: 0.25s per tick
+# ---- R3 timeline (reading -> verdict -> decision -> action), one JSON event per line ----
+{"id": 1, "timestamp": "2026-11-06T21:24:19.013Z", "stage": "reading", "layer": "twin", "correlation_id": "mock-twin-001:PRT-WLV-01:32", "summary": "PRT-WLV-01 = 180.0 cm (normal [20, 80])", "sensor_id": "PRT-WLV-01", "observation_id": "ock-twin-001-PRT-WLV-01-32", "value": 180.0, "incident": "flood"}
+{"id": 2, "timestamp": "2026-11-06T21:24:20.013Z", "stage": "verdict", "layer": "guardian", "correlation_id": "mock-twin-001:PRT-WLV-01:32", "summary": "REJECTED score 0.30 BACKUP_DISAGREEMENT", "sensor_id": "PRT-WLV-01", "observation_id": "ock-twin-001-PRT-WLV-01-32", "verdict": "REJECTED"}
+{"id": 3, "timestamp": "2026-11-06T21:24:20.013Z", "stage": "decision", "layer": "brain", "correlation_id": "mock-twin-001:PRT-WLV-01:32", "summary": "DISCARDED flood on PRT-WLV-01: UNTRUSTED evidence: response refused, no actuator command sent", "sensor_id": "PRT-WLV-01", "outcome": "DISCARDED", "incident": "flood", "planned": []}
+{"id": 4, "timestamp": "2026-11-06T21:24:20.804Z", "stage": "reading", "layer": "twin", "correlation_id": "mock-twin-001:PRT-WLV-01:52", "summary": "PRT-WLV-01 = 180.0 cm (normal [20, 80])", "sensor_id": "PRT-WLV-01", "observation_id": "ock-twin-001-PRT-WLV-01-52", "value": 180.0, "incident": "flood"}
+{"id": 5, "timestamp": "2026-11-06T21:24:22.195Z", "stage": "verdict", "layer": "guardian", "correlation_id": "mock-twin-001:PRT-WLV-01:52", "summary": "REJECTED score 0.00 BACKUP_DISAGREEMENT", "sensor_id": "PRT-WLV-01", "observation_id": "ock-twin-001-PRT-WLV-01-52", "verdict": "REJECTED"}
+{"id": 6, "timestamp": "2026-11-06T21:24:22.195Z", "stage": "decision", "layer": "brain", "correlation_id": "mock-twin-001:PRT-WLV-01:52", "summary": "DISCARDED flood on PRT-WLV-01: UNTRUSTED evidence: response refused, no actuator command sent", "sensor_id": "PRT-WLV-01", "outcome": "DISCARDED", "incident": "flood", "planned": []}
+{"id": 7, "timestamp": "2026-11-06T21:24:22.615Z", "stage": "decision", "layer": "brain", "correlation_id": "mock-twin-001:PRT-WLV-01:62", "summary": "BACKUP_USED sensor_unusable on PRT-WLV-01: PRT-WLV-01 unusable (status=OFFLINE, available=False): stream ignored; decisions now rely on backup PRT-WLV-02 (currently 49.63 cm), whose own readings are judged by Guardian", "sensor_id": "PRT-WLV-01", "outcome": "BACKUP_USED", "incident": "sensor_unusable", "planned": []}
+# ---- decisions ----
+{"ts": "2026-11-06T21:24:20.013223Z", "sensor_id": "PRT-WLV-01", "incident": "flood", "path": "critical", "outcome": "DISCARDED", "verdict": "REJECTED", "trust_score": 0.3, "reason_codes": ["BACKUP_DISAGREEMENT"], "chosen_by": "rules", "confidence": 1.0, "notes": ["UNTRUSTED evidence: response refused, no actuator command sent"]}
+{"ts": "2026-11-06T21:24:22.195934Z", "sensor_id": "PRT-WLV-01", "incident": "flood", "path": "critical", "outcome": "DISCARDED", "verdict": "REJECTED", "trust_score": 0.0, "reason_codes": ["BACKUP_DISAGREEMENT"], "chosen_by": "rules", "confidence": 1.0, "notes": ["UNTRUSTED evidence: response refused, no actuator command sent"]}
+{"ts": "2026-11-06T21:24:22.615451Z", "sensor_id": "PRT-WLV-01", "incident": "sensor_unusable", "path": "backup", "outcome": "BACKUP_USED", "verdict": null, "trust_score": null, "reason_codes": [], "chosen_by": "rules", "confidence": 1.0, "notes": ["PRT-WLV-01 unusable (status=OFFLINE, available=False): stream ignored; decisions now rely on backup PRT-WLV-02 (currently 49.63 cm), whose own readings are judged by Guardian"]}
+# ---- offline vault: {} integrity=True ----
+# ---- expected outputs (TESTBOOK.md) ----
+# [PASS] fake 180 cm reading refused (UNTRUSTED from Guardian)
+# [PASS] reason code recorded
+# [PASS] no pump or valve command sent
+# [PASS] switches to backup PRT-WLV-02 once PRT-WLV-01 is quarantined
+# RESULT PASS

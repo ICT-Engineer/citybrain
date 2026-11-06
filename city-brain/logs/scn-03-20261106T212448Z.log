@@ -1,0 +1,23 @@
+# scenario: scn-03 - Dead and frozen sensors: use the backup
+# trigger: python scenarios/run.py --scenario scn-03
+# layer: City Brain (standalone, built-in Twin and Guardian simulators: R1)
+# started: 2026-11-06T21:24:48.237247+00:00  sim speed: 0.25s per tick
+# ---- R3 timeline (reading -> verdict -> decision -> action), one JSON event per line ----
+{"id": 1, "timestamp": "2026-11-06T21:24:52.675Z", "stage": "decision", "layer": "brain", "correlation_id": "mock-twin-001:IND-TMP-01:36", "summary": "BACKUP_USED sensor_unusable on IND-TMP-01: IND-TMP-01 unusable (status=FAILED, available=True): stream ignored; decisions now rely on backup IND-TMP-02 (currently 65.34 °C), whose own readings are judged by Guardian", "sensor_id": "IND-TMP-01", "outcome": "BACKUP_USED", "incident": "sensor_unusable", "planned": []}
+{"id": 2, "timestamp": "2026-11-06T21:24:56.048Z", "stage": "decision", "layer": "brain", "correlation_id": "mock-twin-001:IND-TMP-01:66", "summary": "BACKUP_USED sensor_unusable on IND-TMP-01: IND-TMP-01 unusable (status=OFFLINE, available=False): stream ignored; decisions now rely on backup IND-TMP-02 (currently 68.1 °C), whose own readings are judged by Guardian", "sensor_id": "IND-TMP-01", "outcome": "BACKUP_USED", "incident": "sensor_unusable", "planned": []}
+{"id": 3, "timestamp": "2026-11-06T21:25:03.927Z", "stage": "decision", "layer": "brain", "correlation_id": "mock-twin-001:DTN-TRF-01:130", "summary": "IGNORED sensor_unusable on DTN-TRF-01: DTN-TRF-01 unusable (status=OFFLINE, available=False): stream ignored; no backup sensor in the catalog", "sensor_id": "DTN-TRF-01", "outcome": "IGNORED", "incident": "sensor_unusable", "planned": []}
+{"id": 4, "timestamp": "2026-11-06T21:25:03.969Z", "stage": "reading", "layer": "twin", "correlation_id": "mock-twin-001:IND-TMP-02:127", "summary": "IND-TMP-02 = 95.98 °C (normal [20, 90])", "sensor_id": "IND-TMP-02", "observation_id": "ock-twin-001-IND-TMP-02-127", "value": 95.98, "incident": "overheat"}
+{"id": 5, "timestamp": "2026-11-06T21:25:04.624Z", "stage": "verdict", "layer": "guardian", "correlation_id": "mock-twin-001:IND-TMP-02:127", "summary": "TRUSTED score 1.00", "sensor_id": "IND-TMP-02", "observation_id": "ock-twin-001-IND-TMP-02-127", "verdict": "TRUSTED"}
+{"id": 6, "timestamp": "2026-11-06T21:25:04.624Z", "stage": "decision", "layer": "brain", "correlation_id": "mock-twin-001:IND-TMP-02:127", "summary": "act on overheat at IND-TMP-02: IND-VLV-01 set_opening (rules)", "sensor_id": "IND-TMP-02", "incident": "overheat", "chosen_by": "rules", "planned": ["IND-VLV-01 set_opening"]}
+{"id": 7, "timestamp": "2026-11-06T21:25:05.531Z", "stage": "action", "layer": "twin", "correlation_id": "mock-twin-001:IND-TMP-02:127", "summary": "IND-VLV-01 set_opening {'open_pct': 100} APPLIED", "device_id": "IND-VLV-01", "request_id": "brain-49de5ef2bd3a90787b2164a8", "outcome": "APPLIED"}
+# ---- decisions ----
+{"ts": "2026-11-06T21:24:52.675148Z", "sensor_id": "IND-TMP-01", "incident": "sensor_unusable", "path": "backup", "outcome": "BACKUP_USED", "verdict": null, "trust_score": null, "reason_codes": [], "chosen_by": "rules", "confidence": 1.0, "notes": ["IND-TMP-01 unusable (status=FAILED, available=True): stream ignored; decisions now rely on backup IND-TMP-02 (currently 65.34 °C), whose own readings are judged by Guardian"]}
+{"ts": "2026-11-06T21:24:56.048103Z", "sensor_id": "IND-TMP-01", "incident": "sensor_unusable", "path": "backup", "outcome": "BACKUP_USED", "verdict": null, "trust_score": null, "reason_codes": [], "chosen_by": "rules", "confidence": 1.0, "notes": ["IND-TMP-01 unusable (status=OFFLINE, available=False): stream ignored; decisions now rely on backup IND-TMP-02 (currently 68.1 °C), whose own readings are judged by Guardian"]}
+{"ts": "2026-11-06T21:25:03.927681Z", "sensor_id": "DTN-TRF-01", "incident": "sensor_unusable", "path": "backup", "outcome": "IGNORED", "verdict": null, "trust_score": null, "reason_codes": [], "chosen_by": "rules", "confidence": 1.0, "notes": ["DTN-TRF-01 unusable (status=OFFLINE, available=False): stream ignored; no backup sensor in the catalog"]}
+{"ts": "2026-11-06T21:25:05.531321Z", "sensor_id": "IND-TMP-02", "incident": "overheat", "path": "normal", "outcome": "DISPATCHED", "verdict": "TRUSTED", "trust_score": 1.0, "reason_codes": [], "chosen_by": "rules", "confidence": 1.0, "notes": ["rule: overheat on IND-TMP-02"]}
+# ---- offline vault: {} integrity=True ----
+# ---- expected outputs (TESTBOOK.md) ----
+# [PASS] dead IND-TMP-01 stream ignored, backup IND-TMP-02 used
+# [PASS] coolant valve IND-VLV-01 opened on the backup's TRUSTED reading
+# [PASS] frozen DTN-TRF-01 stream ignored after quarantine
+# RESULT PASS

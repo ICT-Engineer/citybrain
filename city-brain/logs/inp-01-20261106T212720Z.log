@@ -1,0 +1,28 @@
+# scenario: inp-01 - Malformed partner input
+# trigger: python scenarios/run.py --scenario inp-01
+# layer: City Brain (standalone, built-in Twin and Guardian simulators: R1)
+# started: 2026-11-06T21:27:20.333537+00:00  sim speed: 0.25s per tick
+# ---- R3 timeline (reading -> verdict -> decision -> action), one JSON event per line ----
+{"id": 1, "timestamp": "2026-11-06T21:27:24.140Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'BAD-SEQ-01' refused: BAD_SEQ", "reason": "BAD_SEQ"}
+{"id": 2, "timestamp": "2026-11-06T21:27:24.141Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'BAD-STRING-01' refused: BAD_VALUE", "reason": "BAD_VALUE"}
+{"id": 3, "timestamp": "2026-11-06T21:27:24.141Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'BAD-TS-01' refused: BAD_TIMESTAMP", "reason": "BAD_TIMESTAMP"}
+{"id": 4, "timestamp": "2026-11-06T21:27:24.141Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'BAD-TYPE-01' refused: UNKNOWN_TYPE:plasma_level", "reason": "UNKNOWN_TYPE:plasma_level"}
+{"id": 5, "timestamp": "2026-11-06T21:27:24.141Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'bad id/../x' refused: BAD_SENSOR_ID", "reason": "BAD_SENSOR_ID"}
+{"id": 6, "timestamp": "2026-11-06T21:27:24.425Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'BAD-SEQ-01' refused: BAD_SEQ", "reason": "BAD_SEQ"}
+{"id": 7, "timestamp": "2026-11-06T21:27:24.426Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'BAD-STRING-01' refused: BAD_VALUE", "reason": "BAD_VALUE"}
+{"id": 8, "timestamp": "2026-11-06T21:27:24.426Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'BAD-TS-01' refused: BAD_TIMESTAMP", "reason": "BAD_TIMESTAMP"}
+{"id": 9, "timestamp": "2026-11-06T21:27:24.426Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'BAD-TYPE-01' refused: UNKNOWN_TYPE:plasma_level", "reason": "UNKNOWN_TYPE:plasma_level"}
+{"id": 10, "timestamp": "2026-11-06T21:27:24.426Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'bad id/../x' refused: BAD_SENSOR_ID", "reason": "BAD_SENSOR_ID"}
+{"id": 11, "timestamp": "2026-11-06T21:27:24.745Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'BAD-SEQ-01' refused: BAD_SEQ", "reason": "BAD_SEQ"}
+{"id": 12, "timestamp": "2026-11-06T21:27:24.746Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'BAD-STRING-01' refused: BAD_VALUE", "reason": "BAD_VALUE"}
+{"id": 13, "timestamp": "2026-11-06T21:27:24.746Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'BAD-TS-01' refused: BAD_TIMESTAMP", "reason": "BAD_TIMESTAMP"}
+{"id": 14, "timestamp": "2026-11-06T21:27:24.746Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'BAD-TYPE-01' refused: UNKNOWN_TYPE:plasma_level", "reason": "UNKNOWN_TYPE:plasma_level"}
+{"id": 15, "timestamp": "2026-11-06T21:27:24.746Z", "stage": "input_rejected", "layer": "twin", "correlation_id": null, "summary": "reading from 'bad id/../x' refused: BAD_SENSOR_ID", "reason": "BAD_SENSOR_ID"}
+# ---- decisions ----
+# ---- offline vault: {} integrity=True ----
+# ---- expected outputs (TESTBOOK.md) ----
+# [PASS] 5 malformed Twin readings refused with a clear reason
+# [PASS] reasons recorded
+# [PASS] Brain kept running and kept reading the 16 sensors
+# [PASS] no command caused by bad input
+# RESULT PASS

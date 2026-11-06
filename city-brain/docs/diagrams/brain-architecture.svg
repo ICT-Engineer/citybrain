@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" font-family="Inter, DejaVu Sans, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3b3a6b"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0f9d7a"/></marker>
+    <marker id="v" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b4fe0"/></marker>
+  </defs>
+  <rect width="960" height="520" fill="#ffffff"/>
+  <!-- partners -->
+  <g>
+    <rect x="20" y="70" width="150" height="150" rx="14" fill="#e8f6fd" stroke="#4aa8d8"/>
+    <text x="95" y="98" text-anchor="middle" font-size="15" font-weight="700" fill="#1d5f80">TWIN</text>
+    <text x="95" y="120" text-anchor="middle" font-size="11" fill="#2d6f90">16 sensors</text>
+    <text x="95" y="136" text-anchor="middle" font-size="11" fill="#2d6f90">pumps · valves · signals</text>
+    <text x="95" y="152" text-anchor="middle" font-size="11" fill="#2d6f90">feeders · responders</text>
+    <text x="95" y="176" text-anchor="middle" font-size="10" fill="#5b87a0">REST /api/v1 · MCP/SSE</text>
+    <text x="95" y="200" text-anchor="middle" font-size="10" font-style="italic" fill="#5b87a0">sim: /sim/twin</text>
+
+    <rect x="20" y="300" width="150" height="130" rx="14" fill="#efebff" stroke="#7b63e6"/>
+    <text x="95" y="328" text-anchor="middle" font-size="15" font-weight="700" fill="#4b36b0">GUARDIAN</text>
+    <text x="95" y="350" text-anchor="middle" font-size="11" fill="#5a46c0">TRUSTED / UNTRUSTED</text>
+    <text x="95" y="366" text-anchor="middle" font-size="11" fill="#5a46c0">reason codes · quarantine</text>
+    <text x="95" y="390" text-anchor="middle" font-size="10" fill="#7a6ad0">GET /verdicts/{obs_id}</text>
+    <text x="95" y="410" text-anchor="middle" font-size="10" font-style="italic" fill="#7a6ad0">sim: /sim/guardian</text>
+  </g>
+  <!-- brain frame -->
+  <rect x="215" y="20" width="725" height="480" rx="18" fill="#fbf7ff" stroke="#c9b6f5" stroke-dasharray="6 4"/>
+  <text x="235" y="46" font-size="15" font-weight="800" fill="#3b2a7a" letter-spacing="1.5">CITY BRAIN  ·  one process, port 8300</text>
+  <text x="922" y="46" text-anchor="end" font-size="10" fill="#8a7bb5">partner I/O only in clients/ (logic never calls HTTP)</text>
+
+  <g font-size="12" fill="#262450">
+    <!-- row 1 -->
+    <rect x="240" y="80" width="140" height="64" rx="10" fill="#fff" stroke="#9db7d6"/>
+    <text x="310" y="104" text-anchor="middle" font-weight="700">Ingestion</text>
+    <text x="310" y="122" text-anchor="middle" font-size="10" fill="#555">poll, non-blocking</text>
+    <text x="310" y="135" text-anchor="middle" font-size="10" fill="#555">clients/twin_contract</text>
+
+    <rect x="405" y="80" width="140" height="64" rx="10" fill="#fff" stroke="#e39aa5"/>
+    <text x="475" y="104" text-anchor="middle" font-weight="700">Validate</text>
+    <text x="475" y="122" text-anchor="middle" font-size="10" fill="#555">schema, ranges, replay</text>
+    <text x="475" y="135" text-anchor="middle" font-size="10" fill="#555">BAD_VALUE · BAD_SEQ …</text>
+
+    <rect x="570" y="80" width="140" height="64" rx="10" fill="#fff" stroke="#9db7d6"/>
+    <text x="640" y="104" text-anchor="middle" font-weight="700">Detect</text>
+    <text x="640" y="122" text-anchor="middle" font-size="10" fill="#555">catalog normal_limits</text>
+    <text x="640" y="135" text-anchor="middle" font-size="10" fill="#555">pair corroboration</text>
+
+    <rect x="735" y="80" width="180" height="64" rx="10" fill="#fff" stroke="#7b63e6"/>
+    <text x="825" y="104" text-anchor="middle" font-weight="700">Trust gate</text>
+    <text x="825" y="122" text-anchor="middle" font-size="10" fill="#555">verdict TRUSTED and score ≥ 0.7</text>
+    <text x="825" y="135" text-anchor="middle" font-size="10" fill="#555">none → HELD (never guess)</text>
+
+    <!-- row 2 -->
+    <rect x="735" y="190" width="180" height="84" rx="10" fill="#fff" stroke="#d58ad0"/>
+    <text x="825" y="214" text-anchor="middle" font-weight="700">Decide</text>
+    <text x="825" y="232" text-anchor="middle" font-size="10" fill="#555">catalog rules (safety floor)</text>
+    <text x="825" y="246" text-anchor="middle" font-size="10" fill="#555">RandomForest city model</text>
+    <text x="825" y="260" text-anchor="middle" font-size="10" fill="#555">Air model + 10-min forecast</text>
+
+    <rect x="530" y="190" width="180" height="84" rx="10" fill="#fff" stroke="#d58ad0"/>
+    <text x="620" y="214" text-anchor="middle" font-weight="700">Pick actuator</text>
+    <text x="620" y="232" text-anchor="middle" font-size="10" fill="#555">linked device from catalog</text>
+    <text x="620" y="246" text-anchor="middle" font-size="10" fill="#555">skip quarantined → backup</text>
+    <text x="620" y="260" text-anchor="middle" font-size="10" fill="#555">shortest road route ≤ 5</text>
+
+    <rect x="325" y="190" width="180" height="84" rx="10" fill="#fff" stroke="#e39aa5"/>
+    <text x="415" y="214" text-anchor="middle" font-weight="700">Command shield</text>
+    <text x="415" y="232" text-anchor="middle" font-size="10" fill="#555">allowlist · ranges · 6/min</text>
+    <text x="415" y="246" text-anchor="middle" font-size="10" fill="#555">HMAC-SHA256 + nonce</text>
+    <text x="415" y="260" text-anchor="middle" font-size="10" fill="#555">idempotent request_id</text>
+
+    <!-- row 3 -->
+    <rect x="325" y="320" width="180" height="70" rx="10" fill="#fff8ec" stroke="#e0a64a"/>
+    <text x="415" y="344" text-anchor="middle" font-weight="700">Offline vault</text>
+    <text x="415" y="362" text-anchor="middle" font-size="10" fill="#555">fsync · hash chain · HMAC</text>
+    <text x="415" y="376" text-anchor="middle" font-size="10" fill="#555">re-send same id, TTL 5 min</text>
+
+    <rect x="530" y="320" width="180" height="70" rx="10" fill="#eefcf7" stroke="#2fb58f"/>
+    <text x="620" y="344" text-anchor="middle" font-weight="700">R3 timeline</text>
+    <text x="620" y="362" text-anchor="middle" font-size="10" fill="#555">reading → verdict →</text>
+    <text x="620" y="376" text-anchor="middle" font-size="10" fill="#555">decision → action (UTC ms)</text>
+
+    <rect x="735" y="320" width="180" height="70" rx="10" fill="#fff" stroke="#9db7d6"/>
+    <text x="825" y="344" text-anchor="middle" font-weight="700">Cortex UI</text>
+    <text x="825" y="362" text-anchor="middle" font-size="10" fill="#555">/city map, blinking actuators</text>
+    <text x="825" y="376" text-anchor="middle" font-size="10" fill="#555">/timeline · /docs</text>
+
+    <rect x="240" y="420" width="675" height="54" rx="10" fill="#f3f1fb" stroke="#d6cff0"/>
+    <text x="577" y="443" text-anchor="middle" font-weight="700">config.py ← .env  (TWIN_URL, GUARDIAN_URL, tokens, thresholds, SIMULATOR)</text>
+    <text x="577" y="462" text-anchor="middle" font-size="10" fill="#555">same code runs on the simulators (R1) or on the real partners: no code change on merge day</text>
+  </g>
+  <!-- arrows -->
+  <g fill="none" stroke-width="2">
+    <path d="M170 112 H238" stroke="#3b3a6b" marker-end="url(#a)"/>
+    <text x="178" y="104" font-size="10" fill="#3b3a6b">readings</text>
+    <path d="M380 112 H403" stroke="#3b3a6b" marker-end="url(#a)"/>
+    <path d="M545 112 H568" stroke="#3b3a6b" marker-end="url(#a)"/>
+    <path d="M710 112 H733" stroke="#3b3a6b" marker-end="url(#a)"/>
+    <path d="M170 365 H222 V297 H928 V112 H918" stroke="#6b4fe0" stroke-dasharray="5 4" marker-end="url(#v)"/>
+    <text x="176" y="357" font-size="10" fill="#6b4fe0">verdict</text>
+    <path d="M825 144 V188" stroke="#3b3a6b" marker-end="url(#a)"/>
+    <path d="M735 232 H712" stroke="#3b3a6b" marker-end="url(#a)"/>
+    <path d="M530 232 H507" stroke="#3b3a6b" marker-end="url(#a)"/>
+    <path d="M325 232 H200 C 180 232, 170 210, 160 222" stroke="#0f9d7a" marker-end="url(#g)"/>
+    <text x="210" y="225" font-size="10" fill="#0f9d7a">signed command</text>
+    <path d="M415 274 V318" stroke="#e0a64a" stroke-dasharray="4 3" marker-end="url(#a)"/>
+    <text x="422" y="289" font-size="10" fill="#b07a20">link down</text>
+  </g>
+</svg>

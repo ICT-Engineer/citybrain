@@ -1,0 +1,18 @@
+# scenario: emg-01 - Emergency call: route responders
+# trigger: python scenarios/run.py --scenario emg-01
+# layer: City Brain (standalone, built-in Twin and Guardian simulators: R1)
+# started: 2026-11-06T21:27:25.763786+00:00  sim speed: 0.25s per tick
+# ---- R3 timeline (reading -> verdict -> decision -> action), one JSON event per line ----
+{"id": 1, "timestamp": "2026-11-06T21:27:29.194Z", "stage": "reading", "layer": "operator", "correlation_id": "mock-twin-001:CALL-IND:1794000449193", "summary": "emergency call: accident in Industrial", "sensor_id": "CALL-IND"}
+{"id": 2, "timestamp": "2026-11-06T21:27:29.194Z", "stage": "verdict", "layer": "operator", "correlation_id": "mock-twin-001:CALL-IND:1794000449193", "summary": "OPERATOR_CONFIRMED_CALL (calls are not Twin sensor data)", "verdict": "TRUSTED"}
+{"id": 3, "timestamp": "2026-11-06T21:27:29.194Z", "stage": "decision", "layer": "brain", "correlation_id": "mock-twin-001:CALL-IND:1794000449193", "summary": "act on accident at CALL-IND: AMB-01 dispatch, POL-01 dispatch (rules)", "sensor_id": "CALL-IND", "incident": "accident", "chosen_by": "rules", "planned": ["AMB-01 dispatch", "POL-01 dispatch"]}
+{"id": 4, "timestamp": "2026-11-06T21:27:29.338Z", "stage": "action", "layer": "twin", "correlation_id": "mock-twin-001:CALL-IND:1794000449193", "summary": "AMB-01 dispatch {'destination_node_id': 'J-I1', 'route_road_ids': ['R-LOW', 'R-IND'], 'mission_ref': 'm-brain-amb-01-001'} APPLIED", "device_id": "AMB-01", "request_id": "brain-a411db856bb5fb259d215630", "outcome": "APPLIED"}
+{"id": 5, "timestamp": "2026-11-06T21:27:29.411Z", "stage": "action", "layer": "twin", "correlation_id": "mock-twin-001:CALL-IND:1794000449193", "summary": "POL-01 dispatch {'destination_node_id': 'J-I1', 'route_road_ids': ['R-LOW', 'R-IND'], 'mission_ref': 'm-brain-pol-01-002'} APPLIED", "device_id": "POL-01", "request_id": "brain-8253b0bd777b3fd0aaf2bfed", "outcome": "APPLIED"}
+# ---- decisions ----
+{"ts": "2026-11-06T21:27:29.411075Z", "sensor_id": "CALL-IND", "incident": "accident", "path": "critical", "outcome": "DISPATCHED", "verdict": "TRUSTED", "trust_score": 1.0, "reason_codes": ["OPERATOR_CONFIRMED_CALL"], "chosen_by": "rules", "confidence": 1.0, "notes": ["rule: accident on CALL-IND"]}
+# ---- offline vault: {} integrity=True ----
+# ---- expected outputs (TESTBOOK.md) ----
+# [PASS] accident in Industrial dispatches an ambulance and the police
+# [PASS] route follows the Twin road graph J-H1 -> R-LOW -> R-IND -> J-I1
+# [PASS] units released at mission end
+# RESULT PASS

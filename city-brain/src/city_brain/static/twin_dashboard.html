@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>City Brain · Operations</title>
+<style>
+:root{--bg:#06131c;--panel:#0b1f2c;--panel2:#0f2738;--line:#1d3b50;--ink:#d8ecf5;--dim:#7f9fb2;--cyan:#7bd8eb;
+ --ok:#5fdca5;--bad:#ff6b6b;--warn:#ffbd6c;--held:#b9a2ff;--gold:#ffd38a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid var(--line);background:#081a26}
+header h1{margin:0;font-size:17px;letter-spacing:.14em;font-weight:700}
+header .sub{color:var(--dim);font-size:12px;letter-spacing:.06em}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.chip{border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:12px;color:var(--dim);white-space:nowrap}
+.chip b{color:var(--ink);font-weight:600}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:var(--dim);vertical-align:1px}
+.dot.on{background:var(--ok)}.dot.off{background:var(--bad)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 18px;border-bottom:1px solid var(--line);background:#081a26}
+.bar .lbl{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-right:2px}
+button,select{background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
+button:hover{border-color:var(--cyan)}button.alt{border-color:#3a5a2e}
+.sep{width:1px;height:22px;background:var(--line);margin:0 6px}
+main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(360px,1fr);gap:14px;padding:14px 18px}
+@media (max-width:980px){main{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.panel h2{margin:0;padding:10px 14px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+#map{position:relative;background:#071722}
+#map svg{display:block;width:100%;height:auto}
+.legend{display:flex;gap:14px;flex-wrap:wrap;padding:8px 14px;font-size:12px;color:var(--dim);border-top:1px solid var(--line)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+.metrics div{background:var(--panel);padding:10px 12px}.metrics b{display:block;font-size:20px}.metrics span{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:6px 10px;border-bottom:1px solid #12293a;text-align:left;white-space:nowrap}
+th{color:var(--dim);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.06em;position:sticky;top:0;background:var(--panel)}
+tr.zone td{color:var(--gold);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:#0a1c28}
+tr.sel{outline:1px solid var(--cyan)}
+.num{font-variant-numeric:tabular-nums;text-align:right}
+.band{width:80px;height:6px;background:#173246;border-radius:3px;position:relative;display:inline-block;vertical-align:middle}
+.band i{position:absolute;top:-2px;width:4px;height:10px;border-radius:2px}
+.tag{display:inline-block;padding:1px 7px;border-radius:4px;font-size:11px;font-weight:600;letter-spacing:.03em}
+.t-ok{background:#123d2c;color:var(--ok)}.t-bad{background:#4a1c22;color:var(--bad)}.t-warn{background:#47331a;color:var(--warn)}
+.t-held{background:#2b2350;color:var(--held)}.t-dim{background:#16303f;color:var(--dim)}
+.scroll{max-height:420px;overflow:auto}
+.feed{list-style:none;margin:0;padding:0}
+.feed li{padding:10px 14px;border-bottom:1px solid #12293a}
+.feed .top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.feed .when{color:var(--dim);font-size:12px;margin-left:auto}
+.feed .cmd{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--cyan);margin-top:4px}
+.feed .note{color:var(--dim);font-size:12px;margin-top:3px}
+#detail{padding:12px 14px;font-size:13px;color:var(--dim);min-height:64px}
+#detail b{color:var(--ink)}
+.col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.empty{padding:14px;color:var(--dim)}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>CITY BRAIN</h1><div class="sub" id="subtitle">OPERATIONS · STANDALONE</div></div>
+  <div class="chips">
+    <span class="chip" id="c-twin"><span class="dot"></span>Twin</span>
+    <span class="chip" id="c-guardian"><span class="dot"></span>Guardian</span>
+    <span class="chip" id="c-run">run —</span>
+    <span class="chip" id="c-mode">mode —</span>
+  </div>
+</header>
+
+<div class="bar">
+  <span class="lbl" id="scn-lbl">Simulated scenarios</span>
+  <span id="scn"></span>
+  <span class="sep"></span>
+  <span class="lbl">Emergency call</span>
+  <select id="ezone"><option value="DTN">Downtown</option><option value="IND">Industrial</option><option value="RES">Residential</option><option value="PRT">Port</option><option value="HSP">Hospital</option></select>
+  <button data-call="accident">Accident</button><button data-call="fire">Fire</button><button data-call="medical">Medical</button>
+  <button id="release" class="alt">Release responders</button>
+  <span id="msg" class="sub" style="margin-left:8px"></span>
+</div>
+
+<main>
+  <div class="col">
+    <section class="panel">
+      <h2><span>City map · same geometry as the Twin dashboard</span><span id="tick"></span></h2>
+      <div id="map"></div>
+      <div class="legend">
+        <span><i style="background:var(--ok)"></i>trusted</span><span><i style="background:var(--warn)"></i>outside normal band</span>
+        <span><i style="background:var(--bad)"></i>untrusted / quarantined</span><span><i style="background:#456273"></i>offline / failed</span>
+        <span><i style="background:var(--held);border-radius:2px"></i>responder</span><span>red road = blocked</span>
+      </div>
+      <div id="detail">Click a sensor on the map or in the table.</div>
+    </section>
+    <section class="panel">
+      <div class="metrics" id="metrics"></div>
+    </section>
+    <section class="panel">
+      <h2><span>Commands sent</span><span id="ncmd"></span></h2>
+      <div class="scroll" style="max-height:260px"><table><thead><tr><th>time</th><th>device</th><th>command</th><th>params</th><th>result</th></tr></thead><tbody id="cmds"></tbody></table></div>
+    </section>
+  </div>
+  <div class="col">
+    <section class="panel">
+      <h2><span>16 city sensors · trust</span><span id="nsens"></span></h2>
+      <div class="scroll"><table><thead><tr><th>sensor</th><th class="num">value</th><th>normal band</th><th>status</th><th>trust</th></tr></thead><tbody id="sensors"></tbody></table></div>
+    </section>
+    <section class="panel">
+      <h2><span>Brain decisions</span><span id="ndec"></span></h2>
+      <div class="scroll" style="max-height:520px"><ul class="feed" id="decisions"></ul></div>
+    </section>
+  </div>
+</main>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+const $=id=>document.getElementById(id);
+const el=(tag,attrs={},parent)=>{const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);if(parent)parent.append(n);return n;};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let geo=null,svg=null,layers={},sensorDots={},roadLines={},actMarks={},respMarks={},selected=null,last=null;
+const SCENARIOS=[['t5','T5 fake flood'],['scn-02','SCN-02 real flood'],['scn-03','SCN-03 dead sensor'],['scn-04','SCN-04 quarantined pump'],['scn-05','SCN-05 accident + spoof'],['scn-06','SCN-06 outage'],['reset','Reset']];
+
+async function init(){
+  geo=await fetch('/api/geography').then(r=>r.json());
+  const src=await fetch('/map/city-map.svg').then(r=>r.text());
+  svg=new DOMParser().parseFromString(src,'image/svg+xml').documentElement;
+  svg.setAttribute('viewBox',geo.viewBox.join(' '));svg.removeAttribute('width');svg.removeAttribute('height');
+  $('map').replaceChildren(svg);
+  for(const name of ['roads','acts','resp','sensors','labels'])layers[name]=el('g',{'data-layer':name},svg);
+  for(const r of geo.roads){roadLines[r.id]=el('polyline',{points:r.points.map(p=>p.join(',')).join(' '),fill:'none',stroke:'#7bd8eb','stroke-width':8,'stroke-linecap':'round',opacity:.85},layers.roads);}
+  const port=geo.anchors.find(a=>a.id==='PRT');
+  const t=el('text',{x:port.x-130,y:port.y+60,fill:'#ffd38a','font-size':17},layers.labels);t.textContent='Port / separate schematic model';
+  for(const[id,a]of Object.entries(geo.actuators)){
+    if(a.family==='responder')continue;
+    const g=el('g',{transform:`translate(${a.x-34} ${a.y+18})`},layers.acts);
+    const r=el('rect',{width:12,height:12,rx:2,fill:'#173246',stroke:'#8bd8e8','stroke-width':1.5},g);
+    const tt=el('title',{},r);tt.textContent=id;actMarks[id]=r;
+  }
+  for(const[id,p]of Object.entries(geo.sensors)){
+    const c=el('circle',{cx:p.x,cy:p.y,r:8,fill:'#456273',stroke:'#071723','stroke-width':2,style:'cursor:pointer'},layers.sensors);
+    const tt=el('title',{},c);tt.textContent=id;c.addEventListener('click',()=>select(id));sensorDots[id]=c;
+  }
+  for(const id of ['AMB-01','AMB-02','POL-01']){
+    const g=el('g',{},layers.resp);
+    el('polyline',{fill:'none',stroke:'#c9b3ff','stroke-width':4,'stroke-dasharray':'8 6'},g);
+    el('circle',{r:9,fill:'#bca6ff',stroke:'#fff','stroke-width':2},g);
+    const tx=el('text',{fill:'#e6d8ff','font-size':15,'paint-order':'stroke',stroke:'#071723','stroke-width':4},g);tx.textContent=id;
+    respMarks[id]=g;
+  }
+  refresh();setInterval(refresh,1000);
+}
+
+function sensorColor(s){
+  if(s.status==='OFFLINE'||s.status==='FAILED'||s.available===false||s.value==null)return '#456273';
+  const tr=s.trust;if(tr&&(tr.quarantined||tr.trust_score<0.7))return 'var(--bad)';
+  if(s.verdict&&s.verdict.verdict!=='TRUSTED'&&s.verdict.verdict!=='NO_ANSWER')return 'var(--bad)';
+  const[lo,hi]=s.normal_limits;if(s.value>hi||s.value<lo)return 'var(--warn)';
+  return 'var(--ok)';
+}
+function anchorXY(id){const a=geo.anchors.find(a=>a.id===id);return a?[a.x,a.y]:null;}
+function fmt(v){return v==null?'—':(Math.abs(v)>=100?v.toFixed(0):v.toFixed(1));}
+function ago(ts){if(!ts)return '';const s=(Date.now()-Date.parse(ts))/1000;return s<60?`${s.toFixed(0)}s ago`:`${(s/60).toFixed(0)}m ago`;}
+const OUT={DISPATCHED:'t-ok',RECOVERED:'t-ok',BACKUP_USED:'t-warn',PARTIAL:'t-warn',ADVISORY:'t-dim',IGNORED:'t-dim',DISCARDED:'t-bad',FAILED:'t-bad',HELD:'t-held'};
+
+async function refresh(){
+  let d;try{d=await fetch('/api/overview',{cache:'no-store'}).then(r=>r.json());}catch(e){$('msg').textContent='Brain not answering';return;}
+  last=d;
+  const tw=d.twin||{},gu=d.guardian||{};
+  const sim=d.simulator;
+  $('subtitle').textContent=sim?'OPERATIONS · STANDALONE · BUILT-IN SIMULATOR · NOT CONNECTED TO THE TWIN OR GUARDIAN LAYERS':'OPERATIONS · LIVE PARTNER LAYERS';
+  $('c-twin').innerHTML=`<span class="dot ${tw.connected?'on':'off'}"></span>${sim?'Twin simulator (built-in)':'Twin layer'} <b>${tw.connected?'running':'down'}</b>${tw.error?' · '+esc(tw.error).slice(0,40):''}`;
+  $('c-guardian').innerHTML=`<span class="dot ${gu.connected?'on':'off'}"></span>${sim?'Guardian simulator (built-in)':'Guardian layer'} <b>${gu.connected?'running':'unreachable'}</b>`;
+  $('c-run').innerHTML=`run <b>${esc(d.run_id||'—')}</b>`;
+  $('c-mode').innerHTML=sim?'<b>City Brain only</b>':(d.mock_mode?'<b>standalone</b> · external mocks':'<b>live partners</b>');
+  $('tick').textContent=tw.sim_tick!=null?`sim tick ${tw.sim_tick}`:'';
+  $('scn').style.display=$('scn-lbl').style.display=d.mock_mode?'':'none';
+  // map
+  for(const s of d.sensors){const c=sensorDots[s.sensor_id];if(c){c.setAttribute('fill',sensorColor(s));c.setAttribute('r',s.incident?11:8);}}
+  for(const[id,l]of Object.entries(roadLines))l.setAttribute('stroke',d.blocked_roads.includes(id)?'#ff6b6b':'#7bd8eb');
+  for(const[id,r]of Object.entries(actMarks)){const a=d.actuators[id]||{};const lastc=a.last;
+    let f='#173246';if(a.restricted||(a.trust&&a.trust.quarantined))f='#ff6b6b';else if(lastc){const c=lastc.command;f=(c==='start'||c==='set_priority_corridor'||(c==='set_opening'&&lastc.params.open_pct>=90))?'#5fdca5':'#2e5a74';}
+    r.setAttribute('fill',f);}
+  for(const[id,g]of Object.entries(respMarks)){
+    const at=anchorXY(d.responders.location[id]||'J-H1');if(!at)continue;const k=['AMB-01','AMB-02','POL-01'].indexOf(id);
+    const [x,y]=[at[0]-40,at[1]+30+k*22];const[line,dot,tx]=g.children;dot.setAttribute('cx',x);dot.setAttribute('cy',y);tx.setAttribute('x',x+14);tx.setAttribute('y',y+5);
+    const busy=d.responders.missions[id];dot.setAttribute('fill',busy?'#ffbd6c':'#bca6ff');tx.textContent=busy?`${id} on mission`:id;line.setAttribute('points','');}
+  // metrics
+  const m=d.metrics;$('metrics').innerHTML=[['readings',m.readings_ingested_total],['incidents',m.incidents_detected_total],['commands applied',m.dispatches_total],['refused / held',m.discards_total]].map(([k,v])=>`<div><b>${v}</b><span>${k}</span></div>`).join('');
+  // sensors table
+  let rows='',zone='';
+  for(const s of d.sensors){
+    if(s.zone_id!==zone){zone=s.zone_id;rows+=`<tr class="zone"><td colspan="5">${esc(zone)}</td></tr>`;}
+    const[lo,hi]=s.normal_limits,span=(hi-lo)||1,pos=s.value==null?null:Math.max(0,Math.min(1,(s.value-lo)/span*0.7+0.15));
+    const tr=s.trust,tt=tr?(tr.quarantined?'<span class="tag t-bad">QUARANTINED</span>':`<span class="tag ${tr.trust_score>=0.7?'t-ok':'t-bad'}">${tr.trust_score.toFixed(2)}</span>`):'<span class="tag t-dim">—</span>';
+    const st=s.status==='OK'?(s.incident?`<span class="tag t-warn">${esc(s.incident)}</span>`:'<span class="tag t-ok">OK</span>'):`<span class="tag t-dim">${esc(s.status||'—')}</span>`;
+    rows+=`<tr data-s="${s.sensor_id}" class="${selected===s.sensor_id?'sel':''}" style="cursor:pointer"><td>${esc(s.sensor_id)}</td><td class="num">${fmt(s.value)} <span style="color:var(--dim)">${esc(s.unit)}</span></td>
+      <td><span class="band">${pos==null?'':`<i style="left:${pos*76}px;background:${sensorColor(s)}"></i>`}</span> <span style="color:var(--dim);font-size:11px">${lo}–${hi}</span></td><td>${st}</td><td>${tt}</td></tr>`;}
+  for(const f of d.fixtures||[])rows+=`<tr><td>${esc(f.sensor_id)} <span class="tag t-dim">fixture</span></td><td class="num">${fmt(f.reported_value)} ${esc(f.unit)}</td><td></td><td><span class="tag t-dim">${esc(f.status)}</span></td><td></td></tr>`;
+  $('sensors').innerHTML=rows;$('nsens').textContent=`${d.sensors.filter(s=>s.value!=null).length}/16 reporting`;
+  for(const tr of $('sensors').querySelectorAll('tr[data-s]'))tr.onclick=()=>select(tr.dataset.s);
+  // decisions
+  $('decisions').innerHTML=d.decisions.length?d.decisions.map(x=>`<li><div class="top"><span class="tag ${OUT[x.outcome]||'t-dim'}">${esc(x.outcome)}</span>
+     <b>${esc(x.incident.replace('_',' '))}</b><span style="color:var(--dim)">${esc(x.sensor_id)}${x.evidence_sensor?' → '+esc(x.evidence_sensor):''} · ${esc(x.path)}</span>
+     ${x.verdict?`<span class="tag ${x.verdict==='TRUSTED'?'t-ok':'t-bad'}">${esc(x.verdict)}${x.trust_score!=null?' '+x.trust_score.toFixed(2):''}</span>`:''}
+     ${x.chosen_by==='model'?`<span class="tag t-dim">model ${x.confidence}</span>`:''}<span class="when">${ago(x.ts)}</span></div>
+     ${(x.commands||[]).map(c=>`<div class="cmd">${esc(c.device_id)} ${esc(c.command||'')} ${c.params&&Object.keys(c.params).length?esc(JSON.stringify(c.params)):''} → ${esc(c.outcome)}${c.error?' ('+esc(c.error)+')':''}${(c.attempts||[]).length>1?' · tried '+c.attempts.slice(0,-1).map(a=>esc(a.device_id)+':'+esc(a.error)).join(', '):''}</div>`).join('')}
+     ${x.reason_codes&&x.reason_codes.length?`<div class="note">reason codes: ${x.reason_codes.map(esc).join(', ')}</div>`:''}
+     <div class="note">${(x.notes||[]).filter(Boolean).map(esc).join(' · ')}</div></li>`).join(''):'<li class="empty">No decisions yet. Run a scenario or report an emergency call.</li>';
+  $('ndec').textContent=d.decisions.length;
+  $('cmds').innerHTML=d.commands.map(c=>`<tr><td>${ago(c.ts)}</td><td>${esc(c.device_id)}</td><td>${esc(c.command)}</td><td style="color:var(--dim)">${esc(JSON.stringify(c.params))}</td><td><span class="tag ${c.outcome==='APPLIED'?'t-ok':'t-bad'}">${esc(c.outcome)}${c.error?' '+esc(c.error):''}</span></td></tr>`).join('')||'<tr><td colspan="5" class="empty">No commands yet.</td></tr>';
+  $('ncmd').textContent=d.commands.length;
+  if(selected)showDetail(selected);
+}
+
+function select(id){selected=id;for(const[k,c]of Object.entries(sensorDots))c.setAttribute('stroke',k===id?'#ffffff':'#071723');showDetail(id);}
+function showDetail(id){
+  const s=last&&last.sensors.find(x=>x.sensor_id===id);if(!s)return;const p=geo.sensors[id];
+  const v=s.verdict,t=s.trust;
+  $('detail').innerHTML=`<b>${esc(id)}</b> · ${esc(s.description)} · zone ${esc(s.zone_id)} · map (${p.x}, ${p.y}) on anchor ${esc(p.anchor)}<br>
+   value <b>${fmt(s.value)} ${esc(s.unit)}</b> (normal ${s.normal_limits.join('–')}) · status ${esc(s.status)} · seq ${esc(s.seq)}<br>
+   Guardian: ${t?`trust ${t.trust_score.toFixed(2)}${t.quarantined?' · <b style="color:var(--bad)">quarantined</b>':''}`:'not judged yet'}
+   ${v?` · last verdict used by the Brain: <b>${esc(v.verdict)}</b> ${v.reason_codes.length?'('+v.reason_codes.map(esc).join(', ')+')':''} for ${esc(v.observation_id)}`:''}`;
+  for(const tr of $('sensors').querySelectorAll('tr[data-s]'))tr.classList.toggle('sel',tr.dataset.s===id);
+}
+
+$('scn').innerHTML=SCENARIOS.map(([id,l])=>`<button data-scn="${id}">${l}</button>`).join(' ');
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.scn){$('msg').textContent=`starting ${b.textContent}…`;const r=await fetch('/api/mock/scenario/'+b.dataset.scn,{method:'POST'}).then(r=>r.json()).catch(()=>({}));$('msg').textContent=r.scenario?`${r.scenario} started (${r.run_id})`:(r.detail||'');}
+  if(b.dataset.call){const z=$('ezone').value;$('msg').textContent=`${b.dataset.call} reported in ${z}…`;const r=await fetch(`/api/emergency?kind=${b.dataset.call}&zone=${z}`,{method:'POST'}).then(r=>r.json());$('msg').textContent=`${b.dataset.call} in ${z}: ${r.outcome}`;}
+  if(b.id==='release'){const r=await fetch('/api/responders/release',{method:'POST'}).then(r=>r.json());$('msg').textContent=`released ${r.released.length} unit(s)`;}
+});
+init();
+</script>
+</body>
+</html>

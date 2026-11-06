@@ -1,0 +1,349 @@
+{
+  "version": "sensor-inventory-2026-10-29-v2",
+  "source_sha256": "4f8b9e2b4d1bc4f03248073ca383811372185c0d7a78d5750bcba0ef8963576d",
+  "sensors": [
+    {
+      "sensor_id": "PRT-WLV-01",
+      "zone_id": "PRT",
+      "type": "water_level",
+      "unit": "cm",
+      "description": "Harbour water level",
+      "normal_limits": [
+        20,
+        80
+      ],
+      "hard_limits": [
+        0,
+        300
+      ],
+      "interval": 5,
+      "linked_device_ids": [
+        "PRT-PMP-01"
+      ],
+      "backup_ids": [
+        "PRT-WLV-02"
+      ],
+      "source": "model:harbour_level"
+    },
+    {
+      "sensor_id": "PRT-WLV-02",
+      "zone_id": "PRT",
+      "type": "water_level",
+      "unit": "cm",
+      "description": "Harbour water level (backup)",
+      "normal_limits": [
+        20,
+        80
+      ],
+      "hard_limits": [
+        0,
+        300
+      ],
+      "interval": 5,
+      "linked_device_ids": [
+        "PRT-PMP-02"
+      ],
+      "backup_ids": [
+        "PRT-WLV-01"
+      ],
+      "source": "model:harbour_level"
+    },
+    {
+      "sensor_id": "PRT-FLW-01",
+      "zone_id": "PRT",
+      "type": "flow",
+      "unit": "L/s",
+      "description": "Pump outlet flow",
+      "normal_limits": [
+        0,
+        250
+      ],
+      "hard_limits": [
+        0,
+        500
+      ],
+      "interval": 5,
+      "linked_device_ids": [
+        "PRT-PMP-01"
+      ],
+      "backup_ids": [],
+      "source": "model:harbour_flow"
+    },
+    {
+      "sensor_id": "PRT-PRS-01",
+      "zone_id": "PRT",
+      "type": "pressure",
+      "unit": "bar",
+      "description": "Pump header pressure",
+      "normal_limits": [
+        2,
+        6
+      ],
+      "hard_limits": [
+        0,
+        10
+      ],
+      "interval": 5,
+      "linked_device_ids": [
+        "PRT-PMP-01"
+      ],
+      "backup_ids": [],
+      "source": "model:harbour_pressure"
+    },
+    {
+      "sensor_id": "IND-TMP-01",
+      "zone_id": "IND",
+      "type": "temperature",
+      "unit": "°C",
+      "description": "Process temperature",
+      "normal_limits": [
+        20,
+        90
+      ],
+      "hard_limits": [
+        -10,
+        150
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "IND-VLV-01"
+      ],
+      "backup_ids": [
+        "IND-TMP-02"
+      ],
+      "source": "model:process_temperature"
+    },
+    {
+      "sensor_id": "IND-TMP-02",
+      "zone_id": "IND",
+      "type": "temperature",
+      "unit": "°C",
+      "description": "Process temperature (backup)",
+      "normal_limits": [
+        20,
+        90
+      ],
+      "hard_limits": [
+        -10,
+        150
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "IND-VLV-01"
+      ],
+      "backup_ids": [
+        "IND-TMP-01"
+      ],
+      "source": "model:process_temperature"
+    },
+    {
+      "sensor_id": "IND-PRS-01",
+      "zone_id": "IND",
+      "type": "pressure",
+      "unit": "bar",
+      "description": "Coolant line pressure",
+      "normal_limits": [
+        2,
+        6
+      ],
+      "hard_limits": [
+        0,
+        10
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "IND-VLV-01"
+      ],
+      "backup_ids": [],
+      "source": "model:coolant_pressure"
+    },
+    {
+      "sensor_id": "IND-FLW-01",
+      "zone_id": "IND",
+      "type": "flow",
+      "unit": "L/s",
+      "description": "Coolant line flow",
+      "normal_limits": [
+        10,
+        120
+      ],
+      "hard_limits": [
+        0,
+        200
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "IND-VLV-01"
+      ],
+      "backup_ids": [],
+      "source": "model:coolant_flow"
+    },
+    {
+      "sensor_id": "DTN-TRF-01",
+      "zone_id": "DTN",
+      "type": "traffic_count",
+      "unit": "veh/min",
+      "description": "Vehicles, intersection A; approved local selected-road counter",
+      "normal_limits": [
+        0,
+        60
+      ],
+      "hard_limits": [
+        0,
+        120
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "DTN-TLT-01"
+      ],
+      "backup_ids": [],
+      "source": "departures:R-LOW"
+    },
+    {
+      "sensor_id": "DTN-TRF-02",
+      "zone_id": "DTN",
+      "type": "traffic_count",
+      "unit": "veh/min",
+      "description": "Vehicles, intersection B; approved local selected-road counter",
+      "normal_limits": [
+        0,
+        60
+      ],
+      "hard_limits": [
+        0,
+        120
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "DTN-TLT-02"
+      ],
+      "backup_ids": [],
+      "source": "departures:R-DOWN"
+    },
+    {
+      "sensor_id": "DTN-WLV-01",
+      "zone_id": "DTN",
+      "type": "water_level",
+      "unit": "cm",
+      "description": "Storm drain level",
+      "normal_limits": [
+        0,
+        60
+      ],
+      "hard_limits": [
+        0,
+        200
+      ],
+      "interval": 5,
+      "linked_device_ids": [
+        "DTN-VLV-01"
+      ],
+      "backup_ids": [],
+      "source": "model:drain_level"
+    },
+    {
+      "sensor_id": "DTN-TMP-01",
+      "zone_id": "DTN",
+      "type": "temperature",
+      "unit": "°C",
+      "description": "Ambient temperature",
+      "normal_limits": [
+        5,
+        35
+      ],
+      "hard_limits": [
+        -10,
+        50
+      ],
+      "interval": 60,
+      "linked_device_ids": [],
+      "backup_ids": [],
+      "source": "model:ambient_temperature"
+    },
+    {
+      "sensor_id": "RES-WLV-01",
+      "zone_id": "RES",
+      "type": "water_level",
+      "unit": "cm",
+      "description": "Reservoir level",
+      "normal_limits": [
+        100,
+        250
+      ],
+      "hard_limits": [
+        0,
+        300
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "RES-VLV-01"
+      ],
+      "backup_ids": [],
+      "source": "model:reservoir_level"
+    },
+    {
+      "sensor_id": "RES-PRS-01",
+      "zone_id": "RES",
+      "type": "pressure",
+      "unit": "bar",
+      "description": "Network pressure",
+      "normal_limits": [
+        3,
+        5
+      ],
+      "hard_limits": [
+        0,
+        10
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "RES-VLV-01"
+      ],
+      "backup_ids": [],
+      "source": "model:network_pressure"
+    },
+    {
+      "sensor_id": "RES-FLW-01",
+      "zone_id": "RES",
+      "type": "flow",
+      "unit": "L/s",
+      "description": "Network flow",
+      "normal_limits": [
+        5,
+        60
+      ],
+      "hard_limits": [
+        0,
+        150
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "RES-VLV-01"
+      ],
+      "backup_ids": [],
+      "source": "model:network_flow"
+    },
+    {
+      "sensor_id": "RES-TRF-01",
+      "zone_id": "RES",
+      "type": "traffic_count",
+      "unit": "veh/min",
+      "description": "Vehicles, main road; approved local selected-road counter",
+      "normal_limits": [
+        0,
+        40
+      ],
+      "hard_limits": [
+        0,
+        100
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "RES-TLT-01"
+      ],
+      "backup_ids": [],
+      "source": "departures:R-LINK"
+    }
+  ],
+  "model_version": "pdf-city-physics-1"
+}

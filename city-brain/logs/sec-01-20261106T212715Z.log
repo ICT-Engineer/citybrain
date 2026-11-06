@@ -1,0 +1,16 @@
+# scenario: sec-01 - Command shield: tampering, replay, bad commands
+# trigger: python scenarios/run.py --scenario sec-01
+# layer: City Brain (standalone, built-in Twin and Guardian simulators: R1)
+# started: 2026-11-06T21:27:15.057960+00:00  sim speed: 0.25s per tick
+# ---- R3 timeline (reading -> verdict -> decision -> action), one JSON event per line ----
+{"id": 1, "timestamp": "2026-11-06T21:27:18.552Z", "stage": "action", "layer": "brain", "correlation_id": "SEC-01", "summary": "shield self-test: {'out_of_range': 'BLOCKED_BY_SHIELD:PARAMETER_OUT_OF_RANGE', 'unknown_device': 'BLOCKED_BY_SHIELD:UNKNOWN_DEVICE', 'tampered_body': (401, 'command signature check failed: BODY_TAMPERED'), 'first_send': 200, 'replayed': (401, 'command signature check failed: NONCE_REPLAYED'), 'unsigned': (401, 'command signature check failed: SIGNATURE_MISSING')}"}
+# ---- decisions ----
+# ---- offline vault: {} integrity=True ----
+# ---- expected outputs (TESTBOOK.md) ----
+# [PASS] out-of-range parameter blocked before sending
+# [PASS] unknown device blocked before sending
+# [PASS] tampered body refused by the receiver
+# [PASS] valid signed command accepted once
+# [PASS] replayed command refused
+# [PASS] unsigned command refused
+# RESULT PASS

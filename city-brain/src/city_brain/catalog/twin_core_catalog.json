@@ -1,0 +1,511 @@
+{
+  "catalog_version": "pa-catalog-0.1-draft",
+  "entities": [
+    {
+      "id": "CITY-01",
+      "kind": "city",
+      "location_id": "ROOT"
+    },
+    {
+      "id": "Z-DOWNTOWN",
+      "kind": "zone",
+      "location_id": "CITY-01"
+    },
+    {
+      "id": "Z-RESIDENTIAL",
+      "kind": "zone",
+      "location_id": "CITY-01"
+    },
+    {
+      "id": "Z-INDUSTRIAL",
+      "kind": "zone",
+      "location_id": "CITY-01"
+    },
+    {
+      "id": "Z-RIVER",
+      "kind": "zone",
+      "location_id": "CITY-01"
+    },
+    {
+      "id": "Z-HEALTH",
+      "kind": "zone",
+      "location_id": "CITY-01"
+    },
+    {
+      "id": "J-D1",
+      "kind": "junction",
+      "location_id": "Z-DOWNTOWN"
+    },
+    {
+      "id": "J-D2",
+      "kind": "junction",
+      "location_id": "Z-DOWNTOWN"
+    },
+    {
+      "id": "J-R1",
+      "kind": "junction",
+      "location_id": "Z-RESIDENTIAL"
+    },
+    {
+      "id": "J-I1",
+      "kind": "junction",
+      "location_id": "Z-INDUSTRIAL"
+    },
+    {
+      "id": "J-H1",
+      "kind": "junction",
+      "location_id": "Z-HEALTH"
+    },
+    {
+      "id": "R-LOW",
+      "kind": "road",
+      "location_id": "Z-DOWNTOWN"
+    },
+    {
+      "id": "R-HIGH",
+      "kind": "road",
+      "location_id": "Z-RESIDENTIAL"
+    },
+    {
+      "id": "R-LINK",
+      "kind": "road",
+      "location_id": "Z-RESIDENTIAL"
+    },
+    {
+      "id": "R-DOWN",
+      "kind": "road",
+      "location_id": "Z-DOWNTOWN"
+    },
+    {
+      "id": "R-IND",
+      "kind": "road",
+      "location_id": "Z-INDUSTRIAL"
+    },
+    {
+      "id": "HOSP-01",
+      "kind": "facility",
+      "location_id": "Z-HEALTH"
+    },
+    {
+      "id": "BASE-01",
+      "kind": "base",
+      "location_id": "Z-HEALTH"
+    },
+    {
+      "id": "PLANT-01",
+      "kind": "plant",
+      "location_id": "Z-INDUSTRIAL"
+    },
+    {
+      "id": "LOAD-URBAN",
+      "kind": "load",
+      "location_id": "Z-DOWNTOWN"
+    },
+    {
+      "id": "RIVER-01",
+      "kind": "river",
+      "location_id": "Z-RIVER"
+    },
+    {
+      "id": "CATCH-01",
+      "kind": "catchment",
+      "location_id": "Z-RIVER"
+    },
+    {
+      "id": "INLET-01",
+      "kind": "inlet",
+      "location_id": "Z-RIVER"
+    },
+    {
+      "id": "B-01",
+      "kind": "basin",
+      "location_id": "Z-RIVER"
+    },
+    {
+      "id": "FLOOD-01",
+      "kind": "surface_store",
+      "location_id": "Z-RIVER"
+    },
+    {
+      "id": "OUTFALL-01",
+      "kind": "outfall",
+      "location_id": "Z-RIVER"
+    },
+    {
+      "id": "V-12",
+      "kind": "valve",
+      "location_id": "Z-RIVER"
+    },
+    {
+      "id": "P-03",
+      "kind": "pump",
+      "location_id": "Z-RIVER"
+    },
+    {
+      "id": "GRID-01",
+      "kind": "supply",
+      "location_id": "Z-INDUSTRIAL"
+    },
+    {
+      "id": "F-ESS",
+      "kind": "feeder",
+      "location_id": "Z-HEALTH"
+    },
+    {
+      "id": "F-URBAN",
+      "kind": "feeder",
+      "location_id": "Z-DOWNTOWN"
+    },
+    {
+      "id": "F-IND",
+      "kind": "feeder",
+      "location_id": "Z-INDUSTRIAL"
+    },
+    {
+      "id": "AMB-01",
+      "kind": "ambulance",
+      "location_id": "Z-HEALTH"
+    },
+    {
+      "id": "AMB-02",
+      "kind": "ambulance",
+      "location_id": "Z-HEALTH"
+    },
+    {
+      "id": "POL-01",
+      "kind": "police",
+      "location_id": "Z-HEALTH"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "R-LOW",
+      "relation": "endpoint_a",
+      "target_id": "J-D1"
+    },
+    {
+      "source_id": "R-LOW",
+      "relation": "endpoint_b",
+      "target_id": "J-H1"
+    },
+    {
+      "source_id": "R-HIGH",
+      "relation": "endpoint_a",
+      "target_id": "J-R1"
+    },
+    {
+      "source_id": "R-HIGH",
+      "relation": "endpoint_b",
+      "target_id": "J-H1"
+    },
+    {
+      "source_id": "R-LINK",
+      "relation": "endpoint_a",
+      "target_id": "J-D2"
+    },
+    {
+      "source_id": "R-LINK",
+      "relation": "endpoint_b",
+      "target_id": "J-R1"
+    },
+    {
+      "source_id": "R-DOWN",
+      "relation": "endpoint_a",
+      "target_id": "J-D1"
+    },
+    {
+      "source_id": "R-DOWN",
+      "relation": "endpoint_b",
+      "target_id": "J-D2"
+    },
+    {
+      "source_id": "R-IND",
+      "relation": "endpoint_a",
+      "target_id": "J-I1"
+    },
+    {
+      "source_id": "R-IND",
+      "relation": "endpoint_b",
+      "target_id": "J-D1"
+    },
+    {
+      "source_id": "HOSP-01",
+      "relation": "access_at",
+      "target_id": "J-H1"
+    },
+    {
+      "source_id": "BASE-01",
+      "relation": "access_at",
+      "target_id": "J-H1"
+    },
+    {
+      "source_id": "PLANT-01",
+      "relation": "access_at",
+      "target_id": "J-I1"
+    },
+    {
+      "source_id": "AMB-01",
+      "relation": "based_at",
+      "target_id": "BASE-01"
+    },
+    {
+      "source_id": "AMB-02",
+      "relation": "based_at",
+      "target_id": "BASE-01"
+    },
+    {
+      "source_id": "POL-01",
+      "relation": "based_at",
+      "target_id": "BASE-01"
+    },
+    {
+      "source_id": "CATCH-01",
+      "relation": "runoff_to",
+      "target_id": "B-01"
+    },
+    {
+      "source_id": "INLET-01",
+      "relation": "feeds",
+      "target_id": "B-01"
+    },
+    {
+      "source_id": "V-12",
+      "relation": "controls",
+      "target_id": "INLET-01"
+    },
+    {
+      "source_id": "B-01",
+      "relation": "spills_to",
+      "target_id": "FLOOD-01"
+    },
+    {
+      "source_id": "FLOOD-01",
+      "relation": "exposes",
+      "target_id": "R-LOW"
+    },
+    {
+      "source_id": "FLOOD-01",
+      "relation": "exposes",
+      "target_id": "R-HIGH"
+    },
+    {
+      "source_id": "B-01",
+      "relation": "gravity_to",
+      "target_id": "OUTFALL-01"
+    },
+    {
+      "source_id": "P-03",
+      "relation": "draws_from",
+      "target_id": "B-01"
+    },
+    {
+      "source_id": "P-03",
+      "relation": "draws_from",
+      "target_id": "FLOOD-01"
+    },
+    {
+      "source_id": "P-03",
+      "relation": "discharges_to",
+      "target_id": "OUTFALL-01"
+    },
+    {
+      "source_id": "OUTFALL-01",
+      "relation": "discharges_to",
+      "target_id": "RIVER-01"
+    },
+    {
+      "source_id": "GRID-01",
+      "relation": "supplies",
+      "target_id": "F-ESS"
+    },
+    {
+      "source_id": "GRID-01",
+      "relation": "supplies",
+      "target_id": "F-URBAN"
+    },
+    {
+      "source_id": "GRID-01",
+      "relation": "supplies",
+      "target_id": "F-IND"
+    },
+    {
+      "source_id": "F-ESS",
+      "relation": "powers",
+      "target_id": "HOSP-01"
+    },
+    {
+      "source_id": "F-ESS",
+      "relation": "powers",
+      "target_id": "P-03"
+    },
+    {
+      "source_id": "F-URBAN",
+      "relation": "powers",
+      "target_id": "LOAD-URBAN"
+    },
+    {
+      "source_id": "F-URBAN",
+      "relation": "powers",
+      "target_id": "J-D1"
+    },
+    {
+      "source_id": "F-URBAN",
+      "relation": "powers",
+      "target_id": "J-D2"
+    },
+    {
+      "source_id": "F-IND",
+      "relation": "powers",
+      "target_id": "PLANT-01"
+    }
+  ],
+  "devices": [
+    {
+      "id": "S-CAM-01",
+      "family": "traffic_camera",
+      "location_id": "Z-DOWNTOWN",
+      "binding_relation": "monitors",
+      "target_id": "R-LOW"
+    },
+    {
+      "id": "S-CAM-02",
+      "family": "traffic_camera",
+      "location_id": "Z-RESIDENTIAL",
+      "binding_relation": "monitors",
+      "target_id": "R-HIGH"
+    },
+    {
+      "id": "S-CAM-03",
+      "family": "traffic_camera",
+      "location_id": "Z-RESIDENTIAL",
+      "binding_relation": "monitors",
+      "target_id": "R-LINK"
+    },
+    {
+      "id": "S-CAM-04",
+      "family": "traffic_camera",
+      "location_id": "Z-INDUSTRIAL",
+      "binding_relation": "monitors",
+      "target_id": "R-IND"
+    },
+    {
+      "id": "S-WATER-01",
+      "family": "water_level",
+      "location_id": "Z-RIVER",
+      "binding_relation": "monitors",
+      "target_id": "B-01"
+    },
+    {
+      "id": "S-WATER-02",
+      "family": "water_level",
+      "location_id": "Z-RIVER",
+      "binding_relation": "monitors",
+      "target_id": "RIVER-01"
+    },
+    {
+      "id": "S-WATER-03",
+      "family": "water_level",
+      "location_id": "Z-DOWNTOWN",
+      "binding_relation": "monitors",
+      "target_id": "FLOOD-01"
+    },
+    {
+      "id": "S-POWER-ESS",
+      "family": "power_load",
+      "location_id": "Z-HEALTH",
+      "binding_relation": "monitors",
+      "target_id": "F-ESS"
+    },
+    {
+      "id": "S-POWER-URBAN",
+      "family": "power_load",
+      "location_id": "Z-DOWNTOWN",
+      "binding_relation": "monitors",
+      "target_id": "F-URBAN"
+    },
+    {
+      "id": "S-POWER-IND",
+      "family": "power_load",
+      "location_id": "Z-INDUSTRIAL",
+      "binding_relation": "monitors",
+      "target_id": "F-IND"
+    },
+    {
+      "id": "S-AIR-IND",
+      "family": "air_quality",
+      "location_id": "Z-INDUSTRIAL",
+      "binding_relation": "monitors",
+      "target_id": "Z-INDUSTRIAL"
+    },
+    {
+      "id": "S-AIR-RES",
+      "family": "air_quality",
+      "location_id": "Z-RESIDENTIAL",
+      "binding_relation": "monitors",
+      "target_id": "Z-RESIDENTIAL"
+    },
+    {
+      "id": "S-CALL-01",
+      "family": "emergency_call",
+      "location_id": "Z-HEALTH",
+      "binding_relation": "serves",
+      "target_id": "CITY-01"
+    },
+    {
+      "id": "A-SIG-01",
+      "family": "traffic_signal",
+      "location_id": "Z-DOWNTOWN",
+      "binding_relation": "controls",
+      "target_id": "J-D1"
+    },
+    {
+      "id": "A-SIG-02",
+      "family": "traffic_signal",
+      "location_id": "Z-DOWNTOWN",
+      "binding_relation": "controls",
+      "target_id": "J-D2"
+    },
+    {
+      "id": "A-VALVE-01",
+      "family": "water_valve",
+      "location_id": "Z-RIVER",
+      "binding_relation": "controls",
+      "target_id": "V-12"
+    },
+    {
+      "id": "A-SW-ESS",
+      "family": "grid_switch",
+      "location_id": "Z-HEALTH",
+      "binding_relation": "controls",
+      "target_id": "F-ESS"
+    },
+    {
+      "id": "A-SW-URBAN",
+      "family": "grid_switch",
+      "location_id": "Z-DOWNTOWN",
+      "binding_relation": "controls",
+      "target_id": "F-URBAN"
+    },
+    {
+      "id": "A-SW-IND",
+      "family": "grid_switch",
+      "location_id": "Z-INDUSTRIAL",
+      "binding_relation": "controls",
+      "target_id": "F-IND"
+    },
+    {
+      "id": "A-DISPATCH-01",
+      "family": "dispatch",
+      "location_id": "Z-HEALTH",
+      "binding_relation": "controls",
+      "target_id": "BASE-01"
+    },
+    {
+      "id": "A-PUMP-01",
+      "family": "pump_extension",
+      "location_id": "Z-RIVER",
+      "binding_relation": "controls",
+      "target_id": "P-03"
+    }
+  ]
+}

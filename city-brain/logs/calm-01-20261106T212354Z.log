@@ -1,0 +1,12 @@
+# scenario: calm-01 - Calm day: the Brain must not overreact
+# trigger: python scenarios/run.py --scenario calm-01
+# layer: City Brain (standalone, built-in Twin and Guardian simulators: R1)
+# started: 2026-11-06T21:23:54.531850+00:00  sim speed: 0.25s per tick
+# ---- R3 timeline (reading -> verdict -> decision -> action), one JSON event per line ----
+# ---- decisions ----
+# ---- offline vault: {} integrity=True ----
+# ---- expected outputs (TESTBOOK.md) ----
+# [PASS] all 16 Twin sensors and 5 air monitors reporting
+# [PASS] no incident on a calm day
+# [PASS] no actuator command sent
+# RESULT PASS

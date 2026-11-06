@@ -1,0 +1,774 @@
+{
+  "version": "b-city-device-catalog-1",
+  "source": "config/devices.seed.yaml",
+  "bindings": "config/device_bindings.json",
+  "zones": {
+    "PRT": "Z-RIVER",
+    "IND": "Z-INDUSTRIAL",
+    "DTN": "Z-DOWNTOWN",
+    "RES": "Z-RESIDENTIAL",
+    "HSP": "Z-HEALTH"
+  },
+  "sensors": [
+    {
+      "sensor_id": "DTN-TMP-01",
+      "zone_id": "DTN",
+      "core_zone_id": "Z-DOWNTOWN",
+      "type": "temperature",
+      "unit": "°C",
+      "description": "Ambient temperature",
+      "normal_limits": [
+        5,
+        35
+      ],
+      "hard_limits": [
+        -10,
+        50
+      ],
+      "interval": 60,
+      "linked_device_ids": [],
+      "backup_ids": [],
+      "source": "model:ambient_temperature",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "DTN-TRF-01",
+      "zone_id": "DTN",
+      "core_zone_id": "Z-DOWNTOWN",
+      "type": "traffic_count",
+      "unit": "veh/min",
+      "description": "Vehicles, intersection A; approved local selected-road counter",
+      "normal_limits": [
+        0,
+        60
+      ],
+      "hard_limits": [
+        0,
+        120
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "DTN-TLT-01"
+      ],
+      "backup_ids": [],
+      "source": "departures:R-LOW",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "DTN-TRF-02",
+      "zone_id": "DTN",
+      "core_zone_id": "Z-DOWNTOWN",
+      "type": "traffic_count",
+      "unit": "veh/min",
+      "description": "Vehicles, intersection B; approved local selected-road counter",
+      "normal_limits": [
+        0,
+        60
+      ],
+      "hard_limits": [
+        0,
+        120
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "DTN-TLT-02"
+      ],
+      "backup_ids": [],
+      "source": "departures:R-DOWN",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "DTN-WLV-01",
+      "zone_id": "DTN",
+      "core_zone_id": "Z-DOWNTOWN",
+      "type": "water_level",
+      "unit": "cm",
+      "description": "Storm drain level",
+      "normal_limits": [
+        0,
+        60
+      ],
+      "hard_limits": [
+        0,
+        200
+      ],
+      "interval": 5,
+      "linked_device_ids": [
+        "DTN-VLV-01"
+      ],
+      "backup_ids": [],
+      "source": "model:drain_level",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "IND-FLW-01",
+      "zone_id": "IND",
+      "core_zone_id": "Z-INDUSTRIAL",
+      "type": "flow",
+      "unit": "L/s",
+      "description": "Coolant line flow",
+      "normal_limits": [
+        10,
+        120
+      ],
+      "hard_limits": [
+        0,
+        200
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "IND-VLV-01"
+      ],
+      "backup_ids": [],
+      "source": "model:coolant_flow",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "IND-PRS-01",
+      "zone_id": "IND",
+      "core_zone_id": "Z-INDUSTRIAL",
+      "type": "pressure",
+      "unit": "bar",
+      "description": "Coolant line pressure",
+      "normal_limits": [
+        2,
+        6
+      ],
+      "hard_limits": [
+        0,
+        10
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "IND-VLV-01"
+      ],
+      "backup_ids": [],
+      "source": "model:coolant_pressure",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "IND-TMP-01",
+      "zone_id": "IND",
+      "core_zone_id": "Z-INDUSTRIAL",
+      "type": "temperature",
+      "unit": "°C",
+      "description": "Process temperature",
+      "normal_limits": [
+        20,
+        90
+      ],
+      "hard_limits": [
+        -10,
+        150
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "IND-VLV-01"
+      ],
+      "backup_ids": [
+        "IND-TMP-02"
+      ],
+      "source": "model:process_temperature",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "IND-TMP-02",
+      "zone_id": "IND",
+      "core_zone_id": "Z-INDUSTRIAL",
+      "type": "temperature",
+      "unit": "°C",
+      "description": "Process temperature (backup)",
+      "normal_limits": [
+        20,
+        90
+      ],
+      "hard_limits": [
+        -10,
+        150
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "IND-VLV-01"
+      ],
+      "backup_ids": [
+        "IND-TMP-01"
+      ],
+      "source": "model:process_temperature",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "PRT-FLW-01",
+      "zone_id": "PRT",
+      "core_zone_id": "Z-RIVER",
+      "type": "flow",
+      "unit": "L/s",
+      "description": "Pump outlet flow",
+      "normal_limits": [
+        0,
+        250
+      ],
+      "hard_limits": [
+        0,
+        500
+      ],
+      "interval": 5,
+      "linked_device_ids": [
+        "PRT-PMP-01"
+      ],
+      "backup_ids": [],
+      "source": "model:harbour_flow",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "PRT-PRS-01",
+      "zone_id": "PRT",
+      "core_zone_id": "Z-RIVER",
+      "type": "pressure",
+      "unit": "bar",
+      "description": "Pump header pressure",
+      "normal_limits": [
+        2,
+        6
+      ],
+      "hard_limits": [
+        0,
+        10
+      ],
+      "interval": 5,
+      "linked_device_ids": [
+        "PRT-PMP-01"
+      ],
+      "backup_ids": [],
+      "source": "model:harbour_pressure",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "PRT-WLV-01",
+      "zone_id": "PRT",
+      "core_zone_id": "Z-RIVER",
+      "type": "water_level",
+      "unit": "cm",
+      "description": "Harbour water level",
+      "normal_limits": [
+        20,
+        80
+      ],
+      "hard_limits": [
+        0,
+        300
+      ],
+      "interval": 5,
+      "linked_device_ids": [
+        "PRT-PMP-01"
+      ],
+      "backup_ids": [
+        "PRT-WLV-02"
+      ],
+      "source": "model:harbour_level",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "PRT-WLV-02",
+      "zone_id": "PRT",
+      "core_zone_id": "Z-RIVER",
+      "type": "water_level",
+      "unit": "cm",
+      "description": "Harbour water level (backup)",
+      "normal_limits": [
+        20,
+        80
+      ],
+      "hard_limits": [
+        0,
+        300
+      ],
+      "interval": 5,
+      "linked_device_ids": [
+        "PRT-PMP-02"
+      ],
+      "backup_ids": [
+        "PRT-WLV-01"
+      ],
+      "source": "model:harbour_level",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "RES-FLW-01",
+      "zone_id": "RES",
+      "core_zone_id": "Z-RESIDENTIAL",
+      "type": "flow",
+      "unit": "L/s",
+      "description": "Network flow",
+      "normal_limits": [
+        5,
+        60
+      ],
+      "hard_limits": [
+        0,
+        150
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "RES-VLV-01"
+      ],
+      "backup_ids": [],
+      "source": "model:network_flow",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "RES-PRS-01",
+      "zone_id": "RES",
+      "core_zone_id": "Z-RESIDENTIAL",
+      "type": "pressure",
+      "unit": "bar",
+      "description": "Network pressure",
+      "normal_limits": [
+        3,
+        5
+      ],
+      "hard_limits": [
+        0,
+        10
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "RES-VLV-01"
+      ],
+      "backup_ids": [],
+      "source": "model:network_pressure",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "RES-TRF-01",
+      "zone_id": "RES",
+      "core_zone_id": "Z-RESIDENTIAL",
+      "type": "traffic_count",
+      "unit": "veh/min",
+      "description": "Vehicles, main road; approved local selected-road counter",
+      "normal_limits": [
+        0,
+        40
+      ],
+      "hard_limits": [
+        0,
+        100
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "RES-TLT-01"
+      ],
+      "backup_ids": [],
+      "source": "departures:R-LINK",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    },
+    {
+      "sensor_id": "RES-WLV-01",
+      "zone_id": "RES",
+      "core_zone_id": "Z-RESIDENTIAL",
+      "type": "water_level",
+      "unit": "cm",
+      "description": "Reservoir level",
+      "normal_limits": [
+        100,
+        250
+      ],
+      "hard_limits": [
+        0,
+        300
+      ],
+      "interval": 10,
+      "linked_device_ids": [
+        "RES-VLV-01"
+      ],
+      "backup_ids": [],
+      "source": "model:reservoir_level",
+      "supported": true,
+      "scenario_only": false,
+      "physical_id": null,
+      "aliases": []
+    }
+  ],
+  "actuators": [
+    {
+      "device_id": "AMB-01",
+      "zone_id": "HSP",
+      "core_zone_id": "Z-HEALTH",
+      "type": "Ambulance",
+      "family": "responder",
+      "effect_tag": "reserve_responder",
+      "target_id": "AMB-01",
+      "supported": true,
+      "physical_id": "AMB-01",
+      "aliases": [
+        "A-DISPATCH-01"
+      ],
+      "backup_ids": [],
+      "commands": [
+        "dispatch",
+        "release"
+      ]
+    },
+    {
+      "device_id": "AMB-02",
+      "zone_id": "HSP",
+      "core_zone_id": "Z-HEALTH",
+      "type": "Ambulance",
+      "family": "responder",
+      "effect_tag": "reserve_responder",
+      "target_id": "AMB-02",
+      "supported": true,
+      "physical_id": "AMB-02",
+      "aliases": [],
+      "backup_ids": [],
+      "commands": [
+        "dispatch",
+        "release"
+      ]
+    },
+    {
+      "device_id": "DTN-TLT-01",
+      "zone_id": "DTN",
+      "core_zone_id": "Z-DOWNTOWN",
+      "type": "Traffic Light",
+      "family": "signal",
+      "effect_tag": "signal_mode",
+      "target_id": "J-D1",
+      "supported": true,
+      "physical_id": "J-D1",
+      "aliases": [],
+      "backup_ids": [],
+      "commands": [
+        "set_phase",
+        "set_priority_corridor",
+        "set_mode"
+      ]
+    },
+    {
+      "device_id": "DTN-TLT-02",
+      "zone_id": "DTN",
+      "core_zone_id": "Z-DOWNTOWN",
+      "type": "Traffic Light",
+      "family": "signal",
+      "effect_tag": "signal_mode",
+      "target_id": "J-D2",
+      "supported": true,
+      "physical_id": "J-D2",
+      "aliases": [],
+      "backup_ids": [],
+      "commands": [
+        "set_phase",
+        "set_priority_corridor",
+        "set_mode"
+      ]
+    },
+    {
+      "device_id": "DTN-VLV-01",
+      "zone_id": "DTN",
+      "core_zone_id": "Z-DOWNTOWN",
+      "type": "Valve",
+      "family": "valve",
+      "effect_tag": "valve_position",
+      "target_id": "V-12",
+      "supported": true,
+      "physical_id": "V-12",
+      "aliases": [],
+      "backup_ids": [],
+      "commands": [
+        "set_opening"
+      ]
+    },
+    {
+      "device_id": "F-ESS",
+      "zone_id": "HSP",
+      "core_zone_id": "Z-HEALTH",
+      "type": "Feeder",
+      "family": "feeder",
+      "effect_tag": "feeder_position",
+      "target_id": "F-ESS",
+      "supported": true,
+      "physical_id": "F-ESS",
+      "aliases": [
+        "A-SW-ESS"
+      ],
+      "backup_ids": [],
+      "commands": [
+        "open",
+        "close",
+        "connect",
+        "disconnect"
+      ]
+    },
+    {
+      "device_id": "F-IND",
+      "zone_id": "IND",
+      "core_zone_id": "Z-INDUSTRIAL",
+      "type": "Feeder",
+      "family": "feeder",
+      "effect_tag": "feeder_position",
+      "target_id": "F-IND",
+      "supported": true,
+      "physical_id": "F-IND",
+      "aliases": [
+        "A-SW-IND"
+      ],
+      "backup_ids": [],
+      "commands": [
+        "open",
+        "close",
+        "connect",
+        "disconnect"
+      ]
+    },
+    {
+      "device_id": "F-URBAN",
+      "zone_id": "DTN",
+      "core_zone_id": "Z-DOWNTOWN",
+      "type": "Feeder",
+      "family": "feeder",
+      "effect_tag": "feeder_position",
+      "target_id": "F-URBAN",
+      "supported": true,
+      "physical_id": "F-URBAN",
+      "aliases": [
+        "A-SW-URBAN"
+      ],
+      "backup_ids": [],
+      "commands": [
+        "open",
+        "close",
+        "connect",
+        "disconnect"
+      ]
+    },
+    {
+      "device_id": "IND-VLV-01",
+      "zone_id": "IND",
+      "core_zone_id": "Z-INDUSTRIAL",
+      "type": "Valve",
+      "family": "valve",
+      "effect_tag": "valve_position",
+      "target_id": "V-12",
+      "supported": true,
+      "physical_id": "V-12",
+      "aliases": [],
+      "backup_ids": [],
+      "commands": [
+        "set_opening"
+      ]
+    },
+    {
+      "device_id": "J-D1",
+      "zone_id": "DTN",
+      "core_zone_id": "Z-DOWNTOWN",
+      "type": "Traffic Light",
+      "family": "signal",
+      "effect_tag": "signal_mode",
+      "target_id": "J-D1",
+      "supported": true,
+      "physical_id": "J-D1",
+      "aliases": [
+        "A-SIG-01"
+      ],
+      "backup_ids": [],
+      "commands": [
+        "set_phase",
+        "set_priority_corridor",
+        "set_mode"
+      ]
+    },
+    {
+      "device_id": "J-D2",
+      "zone_id": "DTN",
+      "core_zone_id": "Z-DOWNTOWN",
+      "type": "Traffic Light",
+      "family": "signal",
+      "effect_tag": "signal_mode",
+      "target_id": "J-D2",
+      "supported": true,
+      "physical_id": "J-D2",
+      "aliases": [
+        "A-SIG-02"
+      ],
+      "backup_ids": [],
+      "commands": [
+        "set_phase",
+        "set_priority_corridor",
+        "set_mode"
+      ]
+    },
+    {
+      "device_id": "P-03",
+      "zone_id": "PRT",
+      "core_zone_id": "Z-RIVER",
+      "type": "Pump",
+      "family": "pump",
+      "effect_tag": "pump_enable",
+      "target_id": "P-03",
+      "supported": true,
+      "physical_id": "P-03",
+      "aliases": [
+        "A-PUMP-01"
+      ],
+      "backup_ids": [],
+      "commands": [
+        "start",
+        "stop",
+        "set_speed"
+      ]
+    },
+    {
+      "device_id": "POL-01",
+      "zone_id": "HSP",
+      "core_zone_id": "Z-HEALTH",
+      "type": "Police",
+      "family": "responder",
+      "effect_tag": "reserve_responder",
+      "target_id": "POL-01",
+      "supported": true,
+      "physical_id": "POL-01",
+      "aliases": [],
+      "backup_ids": [],
+      "commands": [
+        "dispatch",
+        "release"
+      ]
+    },
+    {
+      "device_id": "PRT-PMP-01",
+      "zone_id": "PRT",
+      "core_zone_id": "Z-RIVER",
+      "type": "Pump",
+      "family": "pump",
+      "effect_tag": "pump_enable",
+      "target_id": "P-03",
+      "supported": true,
+      "physical_id": "P-03",
+      "aliases": [],
+      "backup_ids": [
+        "PRT-PMP-02"
+      ],
+      "commands": [
+        "start",
+        "stop",
+        "set_speed"
+      ]
+    },
+    {
+      "device_id": "PRT-PMP-02",
+      "zone_id": "PRT",
+      "core_zone_id": "Z-RIVER",
+      "type": "Pump",
+      "family": "pump",
+      "effect_tag": "pump_enable",
+      "target_id": "P-03",
+      "supported": true,
+      "physical_id": "P-03",
+      "aliases": [],
+      "backup_ids": [
+        "PRT-PMP-01"
+      ],
+      "commands": [
+        "start",
+        "stop",
+        "set_speed"
+      ]
+    },
+    {
+      "device_id": "RES-TLT-01",
+      "zone_id": "RES",
+      "core_zone_id": "Z-RESIDENTIAL",
+      "type": "Traffic Light",
+      "family": "signal",
+      "effect_tag": "signal_mode",
+      "target_id": null,
+      "supported": false,
+      "physical_id": null,
+      "aliases": [],
+      "backup_ids": [],
+      "commands": [
+        "set_phase",
+        "set_priority_corridor",
+        "set_mode"
+      ]
+    },
+    {
+      "device_id": "RES-VLV-01",
+      "zone_id": "RES",
+      "core_zone_id": "Z-RESIDENTIAL",
+      "type": "Valve",
+      "family": "valve",
+      "effect_tag": "valve_position",
+      "target_id": "V-12",
+      "supported": true,
+      "physical_id": "V-12",
+      "aliases": [],
+      "backup_ids": [],
+      "commands": [
+        "set_opening"
+      ]
+    },
+    {
+      "device_id": "V-12",
+      "zone_id": "PRT",
+      "core_zone_id": "Z-RIVER",
+      "type": "Valve",
+      "family": "valve",
+      "effect_tag": "valve_position",
+      "target_id": "V-12",
+      "supported": true,
+      "physical_id": "V-12",
+      "aliases": [
+        "A-VALVE-01"
+      ],
+      "backup_ids": [],
+      "commands": [
+        "set_opening"
+      ]
+    }
+  ]
+}

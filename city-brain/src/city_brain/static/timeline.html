@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>City Brain · Timeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--void:#07061a;--glass:rgba(20,18,58,.62);--edge:rgba(160,150,255,.16);--ink:#ecebff;--dim:#9a97c9;--faint:#5d5a8e;
+--mint:#46f2c4;--coral:#ff5d7a;--amber:#ffb547;--violet:#8f7bff;--ice:#9fe3ff;--rose:#ff8fd1}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(90% 60% at 80% 0%,#1a1550 0%,var(--void) 60%);color:var(--ink);font:14px/1.45 'Space Grotesk',system-ui,sans-serif;min-height:100vh}
+header{display:flex;align-items:center;gap:18px;padding:18px 26px}
+h1{margin:0;font:800 20px 'Unbounded',system-ui;letter-spacing:.06em;background:linear-gradient(92deg,var(--ice),var(--violet),var(--rose));-webkit-background-clip:text;background-clip:text;color:transparent}
+header small{font:500 11px 'JetBrains Mono',monospace;color:var(--dim);letter-spacing:.16em}
+header a{margin-left:auto;color:var(--ice);font:500 12px 'JetBrains Mono',monospace;text-decoration:none;border:1px solid var(--edge);padding:7px 12px;border-radius:12px}
+main{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;padding:0 26px 26px}
+@media(max-width:1000px){main{grid-template-columns:1fr}}
+.card{background:var(--glass);border:1px solid var(--edge);border-radius:20px;padding:16px 18px}
+.card h2{margin:0 0 12px;font:600 11px 'Unbounded',system-ui;letter-spacing:.18em;color:var(--dim)}
+.chain{padding:12px 0;border-top:1px solid rgba(255,255,255,.05)}
+.chain:first-of-type{border-top:0}
+.chain .t{font:600 13px 'Space Grotesk';margin-bottom:8px}.chain .t span{font:400 11px 'JetBrains Mono';color:var(--faint);margin-left:8px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;position:relative}
+.step{background:rgba(255,255,255,.035);border-radius:12px;padding:8px 10px;border-top:3px solid var(--c,var(--faint));min-height:74px}
+.step b{display:block;font:600 10px 'JetBrains Mono';letter-spacing:.12em;color:var(--c,var(--faint))}
+.step time{display:block;font:500 11px 'JetBrains Mono';color:var(--ice);margin:3px 0}
+.step p{margin:0;font:400 11.5px 'Space Grotesk';color:var(--dim);word-break:break-word}
+.step.missing{opacity:.35}
+.lat{font:500 10.5px 'JetBrains Mono';color:var(--faint);margin-top:6px}
+table{width:100%;border-collapse:collapse;font:400 12px 'JetBrains Mono',monospace}
+td{padding:6px 6px;border-top:1px solid rgba(255,255,255,.05);vertical-align:top}
+td.ts{color:var(--ice);white-space:nowrap}td.st{white-space:nowrap}
+.tag{display:inline-block;padding:1px 8px;border-radius:999px;font:600 10px 'JetBrains Mono';letter-spacing:.06em;background:rgba(255,255,255,.07)}
+.feed{max-height:78vh;overflow:auto}
+.chains{max-height:78vh;overflow:auto}
+</style>
+</head>
+<body>
+<header><div><h1>CITY · BRAIN TIMELINE</h1><small>R3 · READING → GUARDIAN VERDICT → BRAIN DECISION → ACTUATOR ACTION · UTC</small></div><a href="/city">← Cortex</a></header>
+<main>
+  <section class="card"><h2>INCIDENT CHAINS · latest first</h2><div class="chains" id="chains"></div></section>
+  <section class="card"><h2>EVERY EVENT · live</h2><div class="feed"><table id="feed"></table></div></section>
+</main>
+<script>
+const COL={reading:'#9fe3ff',verdict:'#8f7bff',decision:'#ff8fd1',action:'#46f2c4',input_rejected:'#ff5d7a',network:'#ffb547',vault:'#ffb547'};
+const LAYER={twin:'#9fe3ff',guardian:'#8f7bff',brain:'#ff8fd1',operator:'#ffb547'};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let events=[],cursor=0;
+const hhmmss=ts=>ts.slice(11,23);
+async function tick(){
+ try{const r=await fetch('/api/timeline?since='+cursor).then(r=>r.json());if(r.events.length){events=events.concat(r.events).slice(-2000);cursor=events[events.length-1].id;}}catch{return;}
+ document.getElementById('feed').innerHTML=events.slice(-250).reverse().map(e=>`<tr><td class="ts">${hhmmss(e.timestamp)}</td><td class="st"><span class="tag" style="color:${LAYER[e.layer]||'#9a97c9'}">${esc(e.layer)}</span> <span class="tag" style="color:${COL[e.stage]||'#9a97c9'}">${esc(e.stage)}</span></td><td>${esc(e.summary)}</td></tr>`).join('');
+ const by=new Map();for(const e of events){if(!e.correlation_id)continue;const k=e.correlation_id.replace(/:recovery$/,'');if(!by.has(k))by.set(k,[]);by.get(k).push(e);}
+ const chains=[...by.entries()].sort((a,b)=>b[1][b[1].length-1].id-a[1][a[1].length-1].id).slice(0,12);
+ document.getElementById('chains').innerHTML=chains.map(([k,ev])=>{const pick=s=>ev.find(e=>e.stage===s);const steps=['reading','verdict','decision','action'].map(s=>pick(s)||(s==='action'?pick('vault'):null));
+  const t0=steps[0]?Date.parse(steps[0].timestamp):null,tl=steps.filter(Boolean).pop();const lat=t0&&tl?((Date.parse(tl.timestamp)-t0)/1000).toFixed(2):null;
+  return `<div class="chain"><div class="t">${esc(k)}<span>${ev.length} events${lat?` · ${lat}s reading → last step`:''}</span></div><div class="steps">${steps.map((e,i)=>{const s=['READING','VERDICT','DECISION','ACTION'][i];
+   return e?`<div class="step" style="--c:${COL[e.stage]}"><b>${s} · ${esc(e.layer)}</b><time>${hhmmss(e.timestamp)}</time><p>${esc(e.summary)}</p></div>`:`<div class="step missing"><b>${s}</b><p>—</p></div>`;}).join('')}</div></div>`;}).join('')||'<p style="color:var(--dim)">No incident yet. Start a scenario from the Cortex page or scenarios/run.py.</p>';
+}
+tick();setInterval(tick,1000);
+</script>
+</body>
+</html>

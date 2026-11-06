@@ -1,0 +1,18 @@
+# scenario: air-01 - Industrial smog: air model curtails the plant
+# trigger: python scenarios/run.py --scenario air-01
+# layer: City Brain (standalone, built-in Twin and Guardian simulators: R1)
+# started: 2026-11-06T21:26:12.038056+00:00  sim speed: 0.25s per tick
+# ---- R3 timeline (reading -> verdict -> decision -> action), one JSON event per line ----
+{"id": 1, "timestamp": "2026-11-06T21:26:20.290Z", "stage": "reading", "layer": "twin", "correlation_id": "mock-twin-001:AIR-IND-01:79", "summary": "AIR-IND-01 = 38.1 ug/m3 (normal [0.0, 35.0])", "sensor_id": "AIR-IND-01", "observation_id": "ock-twin-001-AIR-IND-01-79", "value": 38.1, "incident": "air_pollution"}
+{"id": 2, "timestamp": "2026-11-06T21:26:21.394Z", "stage": "verdict", "layer": "guardian", "correlation_id": "mock-twin-001:AIR-IND-01:79", "summary": "TRUSTED score 1.00", "sensor_id": "AIR-IND-01", "observation_id": "ock-twin-001-AIR-IND-01-79", "verdict": "TRUSTED"}
+{"id": 3, "timestamp": "2026-11-06T21:26:21.418Z", "stage": "decision", "layer": "brain", "correlation_id": "mock-twin-001:AIR-IND-01:79", "summary": "act on air_pollution at AIR-IND-01: F-IND open (model 0.89)", "sensor_id": "AIR-IND-01", "incident": "air_pollution", "chosen_by": "model", "planned": ["F-IND open"]}
+{"id": 4, "timestamp": "2026-11-06T21:26:21.524Z", "stage": "action", "layer": "twin", "correlation_id": "mock-twin-001:AIR-IND-01:79", "summary": "F-IND open  APPLIED", "device_id": "F-IND", "request_id": "brain-063eba645e0a9030755329e9", "outcome": "APPLIED"}
+# ---- decisions ----
+{"ts": "2026-11-06T21:26:21.524596Z", "sensor_id": "AIR-IND-01", "incident": "air_pollution", "path": "normal", "outcome": "DISPATCHED", "verdict": "TRUSTED", "trust_score": 1.0, "reason_codes": [], "chosen_by": "model", "confidence": 0.892, "notes": ["air model: curtail_industry (0.89), PM2.5 now 38, forecast in 10 min 104 ug/m3"]}
+# ---- offline vault: {} integrity=True ----
+# ---- expected outputs (TESTBOOK.md) ----
+# [PASS] PM2.5 rise in the industrial zone detected
+# [PASS] air model chose curtail_industry
+# [PASS] industrial feeder F-IND opened (plant source removed)
+# [PASS] hospital feeder F-ESS never touched
+# RESULT PASS

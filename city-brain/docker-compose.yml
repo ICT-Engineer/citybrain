@@ -1,0 +1,13 @@
+# City Brain alone (R1): built-in Twin and Guardian simulators, http://localhost:8300/city
+services:
+  brain:
+    build: .
+    ports: ["8300:8300"]
+    env_file: [.env.example]
+    environment:
+      SIMULATOR: "true"
+      BRAIN_DATA_DIR: /app/data
+    volumes: [brain-data:/app/data]      # offline vault survives restarts
+    restart: unless-stopped
+volumes:
+  brain-data:

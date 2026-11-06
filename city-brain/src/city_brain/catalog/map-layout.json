@@ -1,0 +1,665 @@
+{
+  "schema_version": "dashboard-map-design-0.1",
+  "status": "Implemented dashboard geometry; D01 accepted by supervisor advancement. Illustrative, not geographic.",
+  "viewBox": [
+    0,
+    0,
+    1536,
+    1024
+  ],
+  "geometry": "illustrative, not geographic",
+  "anchors": [
+    {
+      "id": "CITY-01",
+      "x": 768,
+      "y": 82,
+      "district": "ROOT",
+      "selectable": true
+    },
+    {
+      "id": "Z-DOWNTOWN",
+      "x": 720,
+      "y": 625,
+      "district": "Z-DOWNTOWN",
+      "selectable": true
+    },
+    {
+      "id": "Z-RESIDENTIAL",
+      "x": 185,
+      "y": 620,
+      "district": "Z-RESIDENTIAL",
+      "selectable": true
+    },
+    {
+      "id": "Z-INDUSTRIAL",
+      "x": 1060,
+      "y": 200,
+      "district": "Z-INDUSTRIAL",
+      "selectable": true
+    },
+    {
+      "id": "Z-RIVER",
+      "x": 1070,
+      "y": 960,
+      "district": "Z-RIVER",
+      "selectable": true
+    },
+    {
+      "id": "Z-HEALTH",
+      "x": 355,
+      "y": 125,
+      "district": "Z-HEALTH",
+      "selectable": true
+    },
+    {
+      "id": "J-D1",
+      "x": 685,
+      "y": 690,
+      "district": "Z-DOWNTOWN",
+      "selectable": true
+    },
+    {
+      "id": "J-D2",
+      "x": 975,
+      "y": 655,
+      "district": "Z-DOWNTOWN",
+      "selectable": true
+    },
+    {
+      "id": "J-R1",
+      "x": 390,
+      "y": 550,
+      "district": "Z-RESIDENTIAL",
+      "selectable": true
+    },
+    {
+      "id": "J-I1",
+      "x": 1180,
+      "y": 495,
+      "district": "Z-INDUSTRIAL",
+      "selectable": true
+    },
+    {
+      "id": "J-H1",
+      "x": 540,
+      "y": 365,
+      "district": "Z-HEALTH",
+      "selectable": true
+    },
+    {
+      "id": "R-LOW",
+      "x": 710,
+      "y": 430,
+      "district": "Z-DOWNTOWN",
+      "selectable": true
+    },
+    {
+      "id": "R-HIGH",
+      "x": 400,
+      "y": 390,
+      "district": "Z-RESIDENTIAL",
+      "selectable": true
+    },
+    {
+      "id": "R-LINK",
+      "x": 645,
+      "y": 765,
+      "district": "Z-RESIDENTIAL",
+      "selectable": true
+    },
+    {
+      "id": "R-DOWN",
+      "x": 800,
+      "y": 665,
+      "district": "Z-DOWNTOWN",
+      "selectable": true
+    },
+    {
+      "id": "R-IND",
+      "x": 1040,
+      "y": 575,
+      "district": "Z-INDUSTRIAL",
+      "selectable": true
+    },
+    {
+      "id": "HOSP-01",
+      "x": 455,
+      "y": 215,
+      "district": "Z-HEALTH",
+      "selectable": true
+    },
+    {
+      "id": "BASE-01",
+      "x": 590,
+      "y": 285,
+      "district": "Z-HEALTH",
+      "selectable": true
+    },
+    {
+      "id": "PLANT-01",
+      "x": 1120,
+      "y": 290,
+      "district": "Z-INDUSTRIAL",
+      "selectable": true
+    },
+    {
+      "id": "LOAD-URBAN",
+      "x": 905,
+      "y": 625,
+      "district": "Z-DOWNTOWN",
+      "selectable": true
+    },
+    {
+      "id": "RIVER-01",
+      "x": 1110,
+      "y": 880,
+      "district": "Z-RIVER",
+      "selectable": true
+    },
+    {
+      "id": "CATCH-01",
+      "x": 470,
+      "y": 790,
+      "district": "Z-RIVER",
+      "selectable": true
+    },
+    {
+      "id": "INLET-01",
+      "x": 720,
+      "y": 825,
+      "district": "Z-RIVER",
+      "selectable": true
+    },
+    {
+      "id": "B-01",
+      "x": 865,
+      "y": 870,
+      "district": "Z-RIVER",
+      "selectable": true
+    },
+    {
+      "id": "FLOOD-01",
+      "x": 700,
+      "y": 740,
+      "district": "Z-RIVER",
+      "selectable": true
+    },
+    {
+      "id": "OUTFALL-01",
+      "x": 1020,
+      "y": 885,
+      "district": "Z-RIVER",
+      "selectable": true
+    },
+    {
+      "id": "V-12",
+      "x": 730,
+      "y": 880,
+      "district": "Z-RIVER",
+      "selectable": true
+    },
+    {
+      "id": "P-03",
+      "x": 980,
+      "y": 805,
+      "district": "Z-RIVER",
+      "selectable": true
+    },
+    {
+      "id": "GRID-01",
+      "x": 1300,
+      "y": 380,
+      "district": "Z-INDUSTRIAL",
+      "selectable": true
+    },
+    {
+      "id": "F-ESS",
+      "x": 640,
+      "y": 205,
+      "district": "Z-HEALTH",
+      "selectable": true
+    },
+    {
+      "id": "F-URBAN",
+      "x": 980,
+      "y": 485,
+      "district": "Z-DOWNTOWN",
+      "selectable": true
+    },
+    {
+      "id": "F-IND",
+      "x": 1260,
+      "y": 560,
+      "district": "Z-INDUSTRIAL",
+      "selectable": true
+    },
+    {
+      "id": "AMB-01",
+      "x": 565,
+      "y": 300,
+      "district": "Z-HEALTH",
+      "selectable": true
+    },
+    {
+      "id": "AMB-02",
+      "x": 590,
+      "y": 315,
+      "district": "Z-HEALTH",
+      "selectable": true
+    },
+    {
+      "id": "POL-01",
+      "x": 615,
+      "y": 330,
+      "district": "Z-HEALTH",
+      "selectable": true
+    }
+  ],
+  "districts": [
+    {
+      "id": "Z-HEALTH",
+      "label": "Health",
+      "polygon": [
+        [
+          260,
+          170
+        ],
+        [
+          590,
+          60
+        ],
+        [
+          740,
+          270
+        ],
+        [
+          530,
+          410
+        ],
+        [
+          260,
+          310
+        ]
+      ]
+    },
+    {
+      "id": "Z-RESIDENTIAL",
+      "label": "Residential",
+      "polygon": [
+        [
+          110,
+          370
+        ],
+        [
+          280,
+          310
+        ],
+        [
+          530,
+          410
+        ],
+        [
+          520,
+          680
+        ],
+        [
+          220,
+          695
+        ],
+        [
+          105,
+          670
+        ]
+      ]
+    },
+    {
+      "id": "Z-INDUSTRIAL",
+      "label": "Industrial",
+      "polygon": [
+        [
+          1000,
+          170
+        ],
+        [
+          1410,
+          325
+        ],
+        [
+          1440,
+          580
+        ],
+        [
+          1110,
+          600
+        ],
+        [
+          985,
+          430
+        ]
+      ]
+    },
+    {
+      "id": "Z-RIVER",
+      "label": "River",
+      "polygon": [
+        [
+          220,
+          695
+        ],
+        [
+          520,
+          680
+        ],
+        [
+          1110,
+          600
+        ],
+        [
+          1440,
+          580
+        ],
+        [
+          1475,
+          730
+        ],
+        [
+          825,
+          1010
+        ],
+        [
+          280,
+          885
+        ]
+      ]
+    },
+    {
+      "id": "Z-DOWNTOWN",
+      "label": "Downtown",
+      "polygon": [
+        [
+          530,
+          410
+        ],
+        [
+          740,
+          270
+        ],
+        [
+          985,
+          430
+        ],
+        [
+          1110,
+          600
+        ],
+        [
+          975,
+          655
+        ],
+        [
+          685,
+          710
+        ],
+        [
+          520,
+          680
+        ]
+      ]
+    }
+  ],
+  "roads": [
+    {
+      "id": "R-LOW",
+      "endpoints": [
+        "J-D1",
+        "J-H1"
+      ],
+      "points": [
+        [
+          685,
+          690
+        ],
+        [
+          810,
+          535
+        ],
+        [
+          540,
+          365
+        ]
+      ]
+    },
+    {
+      "id": "R-HIGH",
+      "endpoints": [
+        "J-R1",
+        "J-H1"
+      ],
+      "points": [
+        [
+          390,
+          550
+        ],
+        [
+          315,
+          430
+        ],
+        [
+          540,
+          365
+        ]
+      ]
+    },
+    {
+      "id": "R-LINK",
+      "endpoints": [
+        "J-D2",
+        "J-R1"
+      ],
+      "points": [
+        [
+          975,
+          655
+        ],
+        [
+          750,
+          805
+        ],
+        [
+          390,
+          550
+        ]
+      ]
+    },
+    {
+      "id": "R-DOWN",
+      "endpoints": [
+        "J-D1",
+        "J-D2"
+      ],
+      "points": [
+        [
+          685,
+          690
+        ],
+        [
+          975,
+          655
+        ]
+      ]
+    },
+    {
+      "id": "R-IND",
+      "endpoints": [
+        "J-I1",
+        "J-D1"
+      ],
+      "points": [
+        [
+          1180,
+          495
+        ],
+        [
+          1040,
+          590
+        ],
+        [
+          685,
+          690
+        ]
+      ]
+    }
+  ],
+  "devices": [
+    {
+      "id": "S-CAM-01",
+      "family": "traffic_camera",
+      "location_id": "Z-DOWNTOWN",
+      "binding_relation": "monitors",
+      "target_id": "R-LOW"
+    },
+    {
+      "id": "S-CAM-02",
+      "family": "traffic_camera",
+      "location_id": "Z-RESIDENTIAL",
+      "binding_relation": "monitors",
+      "target_id": "R-HIGH"
+    },
+    {
+      "id": "S-CAM-03",
+      "family": "traffic_camera",
+      "location_id": "Z-RESIDENTIAL",
+      "binding_relation": "monitors",
+      "target_id": "R-LINK"
+    },
+    {
+      "id": "S-CAM-04",
+      "family": "traffic_camera",
+      "location_id": "Z-INDUSTRIAL",
+      "binding_relation": "monitors",
+      "target_id": "R-IND"
+    },
+    {
+      "id": "S-WATER-01",
+      "family": "water_level",
+      "location_id": "Z-RIVER",
+      "binding_relation": "monitors",
+      "target_id": "B-01"
+    },
+    {
+      "id": "S-WATER-02",
+      "family": "water_level",
+      "location_id": "Z-RIVER",
+      "binding_relation": "monitors",
+      "target_id": "RIVER-01"
+    },
+    {
+      "id": "S-WATER-03",
+      "family": "water_level",
+      "location_id": "Z-DOWNTOWN",
+      "binding_relation": "monitors",
+      "target_id": "FLOOD-01"
+    },
+    {
+      "id": "S-POWER-ESS",
+      "family": "power_load",
+      "location_id": "Z-HEALTH",
+      "binding_relation": "monitors",
+      "target_id": "F-ESS"
+    },
+    {
+      "id": "S-POWER-URBAN",
+      "family": "power_load",
+      "location_id": "Z-DOWNTOWN",
+      "binding_relation": "monitors",
+      "target_id": "F-URBAN"
+    },
+    {
+      "id": "S-POWER-IND",
+      "family": "power_load",
+      "location_id": "Z-INDUSTRIAL",
+      "binding_relation": "monitors",
+      "target_id": "F-IND"
+    },
+    {
+      "id": "S-AIR-IND",
+      "family": "air_quality",
+      "location_id": "Z-INDUSTRIAL",
+      "binding_relation": "monitors",
+      "target_id": "Z-INDUSTRIAL"
+    },
+    {
+      "id": "S-AIR-RES",
+      "family": "air_quality",
+      "location_id": "Z-RESIDENTIAL",
+      "binding_relation": "monitors",
+      "target_id": "Z-RESIDENTIAL"
+    },
+    {
+      "id": "S-CALL-01",
+      "family": "emergency_call",
+      "location_id": "Z-HEALTH",
+      "binding_relation": "serves",
+      "target_id": "CITY-01"
+    },
+    {
+      "id": "A-SIG-01",
+      "family": "traffic_signal",
+      "location_id": "Z-DOWNTOWN",
+      "binding_relation": "controls",
+      "target_id": "J-D1"
+    },
+    {
+      "id": "A-SIG-02",
+      "family": "traffic_signal",
+      "location_id": "Z-DOWNTOWN",
+      "binding_relation": "controls",
+      "target_id": "J-D2"
+    },
+    {
+      "id": "A-VALVE-01",
+      "family": "water_valve",
+      "location_id": "Z-RIVER",
+      "binding_relation": "controls",
+      "target_id": "V-12"
+    },
+    {
+      "id": "A-SW-ESS",
+      "family": "grid_switch",
+      "location_id": "Z-HEALTH",
+      "binding_relation": "controls",
+      "target_id": "F-ESS"
+    },
+    {
+      "id": "A-SW-URBAN",
+      "family": "grid_switch",
+      "location_id": "Z-DOWNTOWN",
+      "binding_relation": "controls",
+      "target_id": "F-URBAN"
+    },
+    {
+      "id": "A-SW-IND",
+      "family": "grid_switch",
+      "location_id": "Z-INDUSTRIAL",
+      "binding_relation": "controls",
+      "target_id": "F-IND"
+    },
+    {
+      "id": "A-DISPATCH-01",
+      "family": "dispatch",
+      "location_id": "Z-HEALTH",
+      "binding_relation": "controls",
+      "target_id": "BASE-01"
+    },
+    {
+      "id": "A-PUMP-01",
+      "family": "pump_extension",
+      "location_id": "Z-RIVER",
+      "binding_relation": "controls",
+      "target_id": "P-03"
+    }
+  ],
+  "device_anchor_rule": "inherit target_id anchor; group coincident targets in D03",
+  "responders": "initial base anchors only; live position derives from runtime in D03",
+  "unsupported_port": "unbound registry list only; never alias to River"
+}

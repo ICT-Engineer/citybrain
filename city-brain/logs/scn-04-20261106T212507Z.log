@@ -1,0 +1,18 @@
+# scenario: scn-04 - Quarantined pump: use the backup pump
+# trigger: python scenarios/run.py --scenario scn-04
+# layer: City Brain (standalone, built-in Twin and Guardian simulators: R1)
+# started: 2026-11-06T21:25:07.531438+00:00  sim speed: 0.25s per tick
+# ---- R3 timeline (reading -> verdict -> decision -> action), one JSON event per line ----
+{"id": 1, "timestamp": "2026-11-06T21:25:15.619Z", "stage": "reading", "layer": "twin", "correlation_id": "mock-twin-001:PRT-WLV-01:62", "summary": "PRT-WLV-01 = 82.75 cm (normal [20, 80])", "sensor_id": "PRT-WLV-01", "observation_id": "ock-twin-001-PRT-WLV-01-62", "value": 82.75, "incident": "flood"}
+{"id": 2, "timestamp": "2026-11-06T21:25:16.571Z", "stage": "verdict", "layer": "guardian", "correlation_id": "mock-twin-001:PRT-WLV-01:62", "summary": "TRUSTED score 1.00", "sensor_id": "PRT-WLV-01", "observation_id": "ock-twin-001-PRT-WLV-01-62", "verdict": "TRUSTED"}
+{"id": 3, "timestamp": "2026-11-06T21:25:16.617Z", "stage": "decision", "layer": "brain", "correlation_id": "mock-twin-001:PRT-WLV-01:62", "summary": "act on flood at PRT-WLV-01: PRT-PMP-01 start (model 0.81)", "sensor_id": "PRT-WLV-01", "incident": "flood", "chosen_by": "model", "planned": ["PRT-PMP-01 start"]}
+{"id": 4, "timestamp": "2026-11-06T21:25:16.723Z", "stage": "action", "layer": "twin", "correlation_id": "mock-twin-001:PRT-WLV-01:62", "summary": "PRT-PMP-01 start REJECTED GUARDIAN_RESTRICTED", "device_id": "PRT-PMP-01", "request_id": "brain-39242ecc7288b3bdda074562", "outcome": "REJECTED", "error": "GUARDIAN_RESTRICTED"}
+{"id": 5, "timestamp": "2026-11-06T21:25:16.836Z", "stage": "action", "layer": "twin", "correlation_id": "mock-twin-001:PRT-WLV-01:62", "summary": "PRT-PMP-02 start {'speed_pct': 100} APPLIED", "device_id": "PRT-PMP-02", "request_id": "brain-ec8d09209ba54e8d940da012", "outcome": "APPLIED"}
+# ---- decisions ----
+{"ts": "2026-11-06T21:25:16.836581Z", "sensor_id": "PRT-WLV-01", "incident": "flood", "path": "normal", "outcome": "DISPATCHED", "verdict": "TRUSTED", "trust_score": 1.0, "reason_codes": [], "chosen_by": "model", "confidence": 0.811, "notes": ["model predicted open_valve (0.81), agrees with the catalog rule"]}
+# ---- offline vault: {} integrity=True ----
+# ---- expected outputs (TESTBOOK.md) ----
+# [PASS] Twin refused PRT-PMP-01 with GUARDIAN_RESTRICTED, rejection recorded
+# [PASS] START sent to the backup pump PRT-PMP-02
+# [PASS] PRT-PMP-01 never started
+# RESULT PASS
